@@ -59,9 +59,9 @@
 %% values in them; it is your responsibility as an author to replace
 %% the commands and values with those provided to you when you
 %% complete the rights form.
-\setcopyright{acmlicensed}
-\copyrightyear{2024}
-\acmYear{2024}
+% \setcopyright{acmlicensed}
+% \copyrightyear{2024}
+% \acmYear{2024}
 % \acmDOI{XXXXXXX.XXXXXXX}
 
 %%
@@ -95,7 +95,7 @@
     keywordstyle=\color{codeblue},
     numberstyle=\tiny\color{codegray},
     %stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\linespread{1.15}\footnotesize,
+    basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,         
     breaklines=true,                 
     captionpos=b,                    
@@ -106,11 +106,9 @@
     showstringspaces=false,
     showtabs=false,                  
     tabsize=2,
-    xleftmargin=0.7cm,
-    frame=tlbr, 
-    framesep=0.2cm, 
+    xleftmargin=0.3cm,
+    frame=tlbr,  
     framerule=0pt,
-    framexleftmargin=0.2cm,
 }
 
 \lstset{style=mystyle}
@@ -137,7 +135,6 @@
 
 \affiliation{%
   \institution{ETH Zürich}
-  \streetaddress{Rämistrasse 101}
   \city{Zürich}
   \country{Switzerland}
   \postcode{8092}
@@ -212,7 +209,26 @@
 Modern compilers are often able to automatically vectorize code using 
 SIMD instructions.
 Take, as an example, the following code snippet:
-\lstinputlisting[language=Octave]{listings/copy.c}
+
+\lstinputlisting[language=C]{listings/copy.c}
+
+\noindent We can compile it with the following set of compiler flags
+\begin{itemize}
+  \item \texttt{-O3}: tells the compiler to use the highest level
+        of optimization available.
+  \item \texttt{-fno-tree-loop-distribute-patterns}:
+        prevents replacing the loop with a call to \texttt{memcpy}
+  \item \texttt{-fno-tree-vectorize}: prevents vectorization
+\end{itemize}
+
+\noindent Which will produce the following assembly code:
+
+\lstinputlisting[]{listings/copy.s}
+
+\noindent However, by compiling without the \texttt{-fno-tree-vectorize} flag,
+the compiler will produce the following vectorized code (note the use of wider instructions and registers):
+
+\lstinputlisting[]{listings/copy_vectorized.s}
 
 %%
 %% The acknowledgments section is defined using the "acks" environment

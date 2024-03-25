@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex report"] 1711378723 "report.aux" "report.bbl" "report" 1711378998 0
+["bibtex report"] 1711379770 "report.aux" "report.bbl" "report" 1711379843 0
   "./ACM-Reference-Format.bst" 1711373266 90333 86eaa0e4fdb37f9b776e2166aab73ed4 ""
   "./report.bib" 1711377888 9430 b0ec8835a1ae1b5daaa966ed37e88350 ""
-  "report.aux" 1711378998 1179 5e6a86c15f01a6811e617b685695f338 "pdflatex"
+  "report.aux" 1711379843 1413 259bf1ffbd99a0fabcc15bf558ae8c8f "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1711378997 "/Users/herzamos/Desktop/eth/fs24/ast/ast24-project/report/report.tex" "report.pdf" "report" 1711378998 0
-  "/Users/herzamos/Desktop/eth/fs24/ast/ast24-project/report/report.tex" 1711378997 7956 dffb9fdbb1101b5c41301b627ef54e79 ""
+["pdflatex"] 1711379842 "/Users/herzamos/Desktop/eth/fs24/ast/ast24-project/report/report.tex" "report.pdf" "report" 1711379843 0
+  "/Users/herzamos/Desktop/eth/fs24/ast/ast24-project/report/report.tex" 1711379842 8572 4879b6180d76f8c48bfe2a6630e5ed6a ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc" 1558214095 7693 0f2dce6d313c82989ec3a67fc24df2a0 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc" 1490131464 2921 8ca0eb0831f9bc5da080d3697cfe67bf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc" 1490131464 2933 9ad527ce78d7c5fa0a642dead095f172 ""
@@ -46,16 +46,20 @@
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/newtx/nxlmi5.tfm" 1569879884 3308 547f06fb56819535c1e0ce385c4f647b ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/newtx/nxlmi7.tfm" 1575323900 3320 6cf9c990505795806c1f3ac537f356c3 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/newtx/nxlmia.tfm" 1617586172 2616 0bf54bdee01e38e3ed8342d25e5584f6 ""
+  "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/newtx/txex-bar.tfm" 1487028062 872 42a11c392ad05634fee0c67e353926cf ""
+  "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/newtx/txsys.tfm" 1569879884 1580 8da1d0227b68d95a2f0ea5709b29fc83 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb" 1558214095 55526 184de5d68af8c544d6d1653244a2b006 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb" 1354061736 548786 1e51d517556d29f2841d57da58668a69 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb" 1354061736 687959 b99c9f5a9b28f3dba077d1c078bceb3f ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb" 1354061736 614791 ea39341e4db76f25cb20c361802d3cd5 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb" 1354061736 538965 19c5c8b7f952ac97afb8565e9c21a82d ""
+  "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txsys.pfb" 1569879884 40320 53cb337366eff502cad8f44871c88e39 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/vf/public/libertine/LinBiolinumT-tlf-t1.vf" 1490131464 1728 e76e04a950024a95b620698b679c9810 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/vf/public/libertine/LinBiolinumTB-tlf-t1.vf" 1354061736 1728 4ae633ddccb76ba8d0a0906a5e2e8fdf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/vf/public/libertine/LinLibertineT-tlf-t1.vf" 1354061736 1728 b078a050f24d7649619baa987d7216d8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/vf/public/libertine/LinLibertineT-tlf-ts1.vf" 1490131464 640 f2633b196ddbd644937d19e300a5024e ""
   "/usr/local/texlive/2023/texmf-dist/fonts/vf/public/libertine/LinLibertineTB-tlf-t1.vf" 1490131464 1768 5d66dfd9709f1f38b8fb3cb38db46402 ""
+  "/usr/local/texlive/2023/texmf-dist/fonts/vf/public/newtx/ntxsy.vf" 1583272976 1772 98ec0ab31216e818611c784f60ef51a5 ""
   "/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2023/texmf-dist/tex/generic/atbegshi/atbegshi.sty" 1575674566 24708 5584a51a7101caf7e6bbf1fc27d8f7b1 ""
   "/usr/local/texlive/2023/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty" 1576625341 40635 c40361e206be584d448876bba8a64a3b ""
@@ -183,10 +187,12 @@
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
   "acmart.cls" 1711373266 116238 6a517980974a2590e70ec0b7ab8bbdff ""
   "listings/copy.c" 1711378703 139 cef94c4f01e8ca569001eec56a6d6ca1 ""
-  "report.aux" 1711378998 1179 5e6a86c15f01a6811e617b685695f338 "pdflatex"
-  "report.bbl" 1711378723 1785 8ed37e936ba16de73718c10d329b7108 "bibtex report"
-  "report.out" 1711378998 294 30aa4146fc046026bef4958c9ea6d60b "pdflatex"
-  "report.tex" 1711378997 7956 dffb9fdbb1101b5c41301b627ef54e79 ""
+  "listings/copy.s" 1711379646 121 b92701b8c1319c88e30a774288bcdde8 ""
+  "listings/copy_vectorized.s" 1711379753 135 7e79b41a7189c0658dc7cec082ef3a23 ""
+  "report.aux" 1711379843 1413 259bf1ffbd99a0fabcc15bf558ae8c8f "pdflatex"
+  "report.bbl" 1711379770 1785 8ed37e936ba16de73718c10d329b7108 "bibtex report"
+  "report.out" 1711379843 294 30aa4146fc046026bef4958c9ea6d60b "pdflatex"
+  "report.tex" 1711379842 8572 4879b6180d76f8c48bfe2a6630e5ed6a ""
   (generated)
   "report.aux"
   "report.log"
