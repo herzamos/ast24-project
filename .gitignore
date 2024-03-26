@@ -31,7 +31,6 @@
 *.nlo
 *.nls
 *.out
-*.pdf
 *.pyg
 *.run.xml
 *.snm
@@ -46,3 +45,5 @@
 *blx.bib
 .bak 
 .mtc
+.envrc
+.direnv
