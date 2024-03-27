@@ -34,7 +34,7 @@
 %%
 %%
 %% The first command in your LaTeX source must be the \documentclass command.
-\documentclass[acmsmall,review]{acmart}
+\documentclass[acmsmall,review, nonacm]{acmart}
 %% NOTE that a single column version is required for 
 %% submission and peer review. This can be done by changing
 %% the \doucmentclass[...]{acmart} in this template to 
@@ -208,9 +208,9 @@
 \section{Introduction}
 Modern compilers are often able to automatically vectorize code using 
 SIMD instructions.
-Take, as an example, the following code snippet:
+Take, as an example, the following code snippet: 
 
-\lstinputlisting[language=C]{listings/copy.c}
+\lstinputlisting[caption={\texttt{copy.c}}, label={lst:copy}, language=C]{listings/copy.c}
 
 \noindent We can compile it with the following set of compiler flags
 \begin{itemize}
@@ -223,12 +223,29 @@ Take, as an example, the following code snippet:
 
 \noindent Which will produce the following assembly code:
 
-\lstinputlisting[]{listings/copy.s}
+\lstinputlisting[caption={\texttt{copy.c} compiled with vectorizations disabled}, label={lst:copy_compiled}]{listings/copy.s}
 
 \noindent However, by compiling without the \texttt{-fno-tree-vectorize} flag,
 the compiler will produce the following vectorized code (note the use of wider instructions and registers):
 
-\lstinputlisting[]{listings/copy_vectorized.s}
+\lstinputlisting[caption={\texttt{copy.c} compiled with vectorizations enabled}, label={lst:copy_vectorized}]{listings/copy_vectorized.s}
+
+\noindent Nonetheless, autovectorization is \textit{difficult}, compilers tend to miss many optimizations (as shown by \citet{Feng2021})
+, and more than often
+vectorizing a small piece of code requires large changes to the whole code base 
+(as was done for example by \citet{Chen22}).
+The main goal of this project is to develop a method for identifying missed opportunities 
+for vectorization in existing code. That is, given an existing binary, we want to identify 
+loops that could be vectorized but are not.
+
+\section{Approach}
+The idea is to use a dynamic analysis framework (such as Intel Pin\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}, 
+DynamoRIO\footnote{https://dynamorio.org/} or angr\footnote{https://angr.io/})to performs a dynamic analysis 
+that traces an execution and identifies vectorizable code. 
+Given the trace of execution of a program (instructions and memory accesses), we can perform a dataflow analysis to identify 
+``parallel'' computations. 
+
+
 
 %%
 %% The acknowledgments section is defined using the "acks" environment
@@ -243,7 +260,7 @@ the compiler will produce the following vectorized code (note the use of wider i
 %% The next two lines define the bibliography style to be used, and
 %% the bibliography file.
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{report}
+\bibliography{report-references}
 
 %%
 %% If your work has an appendix, this is the place to put it.

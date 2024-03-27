@@ -196,3 +196,60 @@
  @String{WHFreeman = "W. H. Freeman and Co." }
 
 %Entries
+@inproceedings{Chen22,
+    author = {Chen, Yishen and Mendis, Charith and Amarasinghe, Saman},
+    title = {All you need is superword-level parallelism: systematic control-flow vectorization with SLP},
+    year = {2022},
+    isbn = {9781450392655},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/3519939.3523701},
+    doi = {10.1145/3519939.3523701},
+    abstract = {Superword-level parallelism (SLP) vectorization is a proven
+    technique for vectorizing straight-line code. It works by replacing independent, isomorphic instructions with equivalent vector instructions. Larsen and Amarasinghe originally
+    proposed using SLP vectorization (together with loop unrolling) as a simpler, more flexible alternative to traditional
+    loop vectorization. However, this vision of replacing traditional loop vectorization has not been realized because SLP
+    vectorization cannot directly reason with control flow.
+
+
+    In this work, we introduce SuperVectorization, a new vectorization framework that generalizes SLP vectorization to
+    uncover parallelism that spans different basic blocks and
+    loop nests. With the capability to systematically vectorize
+    instructions across control-flow regions such as basic blocks
+    and loops, our framework simultaneously subsumes the roles
+    of inner-loop, outer-loop, and straight-line vectorizer while
+    retaining the flexibility of SLP vectorization (e.g., partial
+    vectorization).
+
+
+    Our evaluation shows that a single instance of our vectorizer is competitive with and, in many cases, significantly
+    better than LLVM’s vectorization pipeline, which includes
+    both loop and SLP vectorizers. For example, on an unoptimized, sequential volume renderer from Pharr and Mark,
+    our vectorizer gains a 3.28\texttimes{} speedup, whereas none of the
+    production compilers that we tested vectorizes to its complex
+    control-flow constructs.},
+    booktitle = {Proceedings of the 43rd ACM SIGPLAN International Conference on Programming Language Design and Implementation},
+    pages = {301–315},
+    numpages = {15},
+    keywords = {optimization, auto-vectorization},
+    location = {San Diego, CA, USA},
+    series = {PLDI 2022}
+}
+
+@Article{Feng2021,
+author={Feng, Jing Ge
+and He, Ye Ping
+and Tao, Qiu Ming},
+title={Evaluation of Compilers' Capability of Automatic Vectorization Based on Source Code Analysis},
+journal={Scientific Programming},
+year={2021},
+month={Nov},
+day={30},
+publisher={Hindawi},
+volume={2021},
+pages={3264624},
+abstract={Automatic vectorization is an important technique for compilers to improve the parallelism of programs. With the widespread usage of SIMD (Single Instruction Multiple Data) extensions in modern processors, automatic vectorization has become a hot topic in the research of compiler techniques. Accurately evaluating the effectiveness of automatic vectorization in typical compilers is quite valuable for compiler optimization and design. This paper evaluates the effectiveness of automatic vectorization, analyzes the limitation of automatic vectorization and the main causes, and improves the automatic vectorization technology. This paper firstly classifies the programs by two main factors: program characteristics and transformation methods. Then, it evaluates the effectiveness of automatic vectorization in three well-known compilers (GCC, LLVM, and ICC, including their multiple versions in recent 5 years) through TSVC (Test Suite for Vectorizing Compilers) benchmark. Furthermore, this paper analyzes the limitation of automatic vectorization based on source code analysis, and introduces the differences between academic research and engineering practice in automatic vectorization and the main causes, Finally, it gives some suggestions as to how to improve automatic vectorization capability.},
+issn={1058-9244},
+doi={10.1155/2021/3264624},
+url={https://doi.org/10.1155/2021/3264624}
+}
