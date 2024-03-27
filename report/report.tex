@@ -239,12 +239,20 @@ for vectorization in existing code. That is, given an existing binary, we want t
 loops that could be vectorized but are not.
 
 \section{Approach}
-The idea is to use a dynamic analysis framework (such as Intel Pin\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}, 
-DynamoRIO\footnote{https://dynamorio.org/} or angr\footnote{https://angr.io/})to performs a dynamic analysis 
+\subsection{Dataflow Analysis}
+Let's look at Listing~\ref{lst:copy_compiled}: there, we can realize that 
+the\texttt{load} and \texttt{store} instructions are completely independent (from each other, but also from other instructions of the same type) 
+and could, theoretically, be computed in parallel, therefore vectorized. This can be concluded by simply looking at the dataflow.
+
+Since all the necessary data to build a dataflow graph can be obtained from the trace of the program, the idea is to use a dynamic analysis framework (such as \texttt{Intel Pin}\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}, 
+\texttt{DynamoRIO}\footnote{https://dynamorio.org/} or \texttt{angr}\footnote{https://angr.io/, \citet{shoshitaishvili2016state}}) to perform a dynamic analysis 
 that traces an execution and identifies vectorizable code. 
 Given the trace of execution of a program (instructions and memory accesses), we can perform a dataflow analysis to identify 
-``parallel'' computations. 
+``parallel'' computations and thus, vectorization opportunities.
 
+\subsection{Test Inputs}
+To test our results, we will use an already existing autovectorization benchmark such as \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}.
+Other random program generators such \texttt{YARPGen}\footnote{https://github.com/intel/yarpgen} could be used to generate more, less specific, test inputs.
 
 
 %%
