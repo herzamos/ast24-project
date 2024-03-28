@@ -112,7 +112,6 @@
 }
 
 \lstset{style=mystyle}
-
 %%
 %% end of the preamble, start of the body of the document source.
 \begin{document}
@@ -230,19 +229,36 @@ the compiler will produce the following vectorized code (note the use of wider i
 
 \lstinputlisting[caption={\texttt{copy.c} compiled with vectorizations enabled}, label={lst:copy_vectorized}]{listings/copy_vectorized.s}
 
-\noindent Nonetheless, autovectorization is \textit{difficult}, compilers tend to miss many optimizations (as shown by \citet{Feng2021})
+\noindent The main goal of this project is to develop a method for identifying missed opportunities 
+for vectorization in existing code. That is, given an existing binary, we want to identify 
+loops that could be vectorized but are not.
+
+\section{Related Work}
+Autovectorization is \textit{difficult}, compilers tend to miss many optimizations (as shown by \citet{Feng2021})
 , and more than often
 vectorizing a small piece of code requires large changes to the whole code base 
 (as was done for example by \citet{Chen22}).
-The main goal of this project is to develop a method for identifying missed opportunities 
-for vectorization in existing code. That is, given an existing binary, we want to identify 
-loops that could be vectorized but are not.
+
+Compilers have been shown to widely miss out on vectorization opportunities. As an example, \citet{Maleki2021} report that
+in their research only 45-71\% of the loops in a benchmark they developed and only a few loops from the real applications 
+are vectorized by the compilers they evaluated, which include widely popular compilers such as \texttt{GCC} (version 4.7.0).
+
+Auto-vectorization is still an open field of research: attempts have been made at ``fixing'' the compiler work
+by post-processing compiled code (\citet{Porpodas2021}) or by applying Machine Learning to produce improved vectorization schemes
+(\citet{Mendis2019}).
 
 \section{Approach}
 \subsection{Dataflow Analysis}
 Let's look at Listing~\ref{lst:copy_compiled}: there, we can realize that 
-the\texttt{load} and \texttt{store} instructions are completely independent (from each other, but also from other instructions of the same type) 
-and could, theoretically, be computed in parallel, therefore vectorized. This can be concluded by simply looking at the dataflow.
+the\texttt{load} and \texttt{store} instructions are completely independent (from other instructions of the same type) 
+and could, theoretically, be computed in parallel, therefore vectorized. This can be concluded by simply looking at the dataflow,
+an example on how a dataflow graph could look like is given on Figure~\ref{fig:dataflow}.
+
+\begin{figure}[h!]
+  \includegraphics*[width=0.4\linewidth]{img/dataflow.png}
+  \caption{Example of dataflow graph for \texttt{copy.c}}
+  \label{fig:dataflow}
+\end{figure}
 
 Since all the necessary data to build a dataflow graph can be obtained from the trace of the program, the idea is to use a dynamic analysis framework (such as \texttt{Intel Pin}\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}, 
 \texttt{DynamoRIO}\footnote{https://dynamorio.org/} or \texttt{angr}\footnote{https://angr.io/, \citet{shoshitaishvili2016state}}) to perform a dynamic analysis 
