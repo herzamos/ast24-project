@@ -1957,27 +1957,27 @@
 \def\@copyrightpermission{%
   \ifcase\acm@copyrightmode\relax % none
   \or % acmcopyright
-   Permission to make digital or hard copies of all or part of this
-   work for personal or classroom use is granted without fee provided
-   that copies are not made or distributed for profit or commercial
-   advantage and that copies bear this notice and the full citation on
-   the first page. Copyrights for components of this work owned by
-   others than ACM must be honored. Abstracting with credit is
-   permitted. To copy otherwise, or republish, to post on servers or
-   to redistribute to lists, requires prior specific permission
-   and\hspace*{.5pt}/or
-   a fee. Request permissions from permissions@acm.org.
+  %  Permission to make digital or hard copies of all or part of this
+  %  work for personal or classroom use is granted without fee provided
+  %  that copies are not made or distributed for profit or commercial
+  %  advantage and that copies bear this notice and the full citation on
+  %  the first page. Copyrights for components of this work owned by
+  %  others than ACM must be honored. Abstracting with credit is
+  %  permitted. To copy otherwise, or republish, to post on servers or
+  %  to redistribute to lists, requires prior specific permission
+  %  and\hspace*{.5pt}/or
+  %  a fee. Request permissions from permissions@acm.org.
   \or % acmlicensed
-   Permission to make digital or hard copies of all or part of this
-   work for personal or classroom use is granted without fee provided
-   that copies are not made or distributed for profit or commercial
-   advantage and that copies bear this notice and the full citation on
-   the first page. Copyrights for components of this work owned by
-   others than the author(s) must be honored. Abstracting with credit
-   is permitted. To copy otherwise, or republish, to post on servers
-   or to redistribute to lists, requires prior specific permission
-   and\hspace*{.5pt}/or a fee. Request permissions from
-   permissions@acm.org.
+  %  Permission to make digital or hard copies of all or part of this
+  %  work for personal or classroom use is granted without fee provided
+  %  that copies are not made or distributed for profit or commercial
+  %  advantage and that copies bear this notice and the full citation on
+  %  the first page. Copyrights for components of this work owned by
+  %  others than the author(s) must be honored. Abstracting with credit
+  %  is permitted. To copy otherwise, or republish, to post on servers
+  %  or to redistribute to lists, requires prior specific permission
+  %  and\hspace*{.5pt}/or a fee. Request permissions from
+  %  permissions@acm.org.
   \or % rightsretained
    Permission to make digital or hard copies of part or all of this
    work for personal or classroom use is granted without fee provided
