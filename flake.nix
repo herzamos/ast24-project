@@ -11,13 +11,23 @@
         pkgs = import nixpkgs {
           inherit system;
         };
+        fhsEnv = pkgs.buildFHSUserEnv {
+          name = "fhs-env";
+          targetPkgs = pkgs: (with pkgs; [
+            python311
+            python311Packages.pip
+            z3
+          ]);
+          runScript = "bash";
+        };
       in
-      with pkgs;
       {
-        devShells.default = mkShell rec {
-          buildInputs = [
-            texlive.combined.scheme-full
-          ];
+        defaultPackage = fhsEnv;
+        devShell = pkgs.mkShell {
+          buildInputs = [fhsEnv pkgs.z3 ];
+          #shellHook = ''
+          #  export LD_LIBRARY_PATH=":${pkgs.z3}/lib:LD_LIBRARY_PATH"
+          #'';
         };
       }
     );
