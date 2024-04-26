@@ -304,3 +304,6 @@ TSWLatexianTemp*
 
 .envrc
 .direnv
+pin/
+obj-intel64
+.vscode
