@@ -260,15 +260,24 @@ an example on how a dataflow graph could look like is given on Figure~\ref{fig:d
   \label{fig:dataflow}
 \end{figure}
 
-Since all the necessary data to build a dataflow graph can be obtained from the trace of the program, the idea is to use a dynamic analysis framework (such as \texttt{Intel Pin}\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}, 
-\texttt{DynamoRIO}\footnote{https://dynamorio.org/} or \texttt{angr}\footnote{https://angr.io/, \citet{shoshitaishvili2016state}}) to perform a dynamic analysis 
-that traces an execution and identifies vectorizable code. 
-Given the trace of execution of a program (instructions and memory accesses), we can perform a dataflow analysis to identify 
-``parallel'' computations and thus, vectorization opportunities.
+\subsection{Dynamic Analysis}
+Since all the necessary data to build a dataflow graph can be obtained from the trace of the program, the idea is to use a dynamic 
+analysis framework (such as \texttt{Intel Pin}\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}, 
+\texttt{DynamoRIO}\footnote{https://dynamorio.org/} or \texttt{angr}\footnote{https://angr.io/, \citet{shoshitaishvili2016state}}) 
+to perform a dynamic analysis that traces an execution. 
+Given the trace of execution of a program (instructions and memory accesses), one can build a dataflow graph, on which a dataflow analysis 
+can be performed to identify  ``parallel'' computations and thus, vectorization opportunities.
+
+However, we foresee that building the dataflow graph will likely be the greatest challenge this project poses. An alternatively,
+would this challenge be too big of a one, could be to simply analyze the program trace directly, to track down for example repeating accesses
+to increasing (or decreasing) memory addresses that would be vectorizable.
 
 \subsection{Test Inputs}
 To test our results, we will use an already existing autovectorization benchmark such as \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}.
 Other random program generators such \texttt{YARPGen}\footnote{https://github.com/intel/yarpgen} could be used to generate more, less specific, test inputs.
+
+\section{Implementation and Experimential Settings}
+To ease our work, and build a first prototype of our project, we focused on a specific version of a specific compiler, namely \texttt{gcc 11.4}.
 
 
 %%
