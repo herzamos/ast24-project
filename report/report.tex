@@ -261,17 +261,27 @@ an example on how a dataflow graph could look like is given on Figure~\ref{fig:d
 \end{figure}
 
 \subsection{Dynamic Analysis}
-Since all the necessary data to build a dataflow graph can be obtained from the trace of the program, the idea is to use a dynamic 
-analysis framework (such as \texttt{Intel Pin}\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}, 
-\texttt{DynamoRIO}\footnote{https://dynamorio.org/} or \texttt{angr}\footnote{https://angr.io/, \citet{shoshitaishvili2016state}}) 
-to perform a dynamic analysis that traces an execution. 
+In order to build a dataflow graph we will be using the dynamic analysis framework 
+\texttt{Intel Pin}\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}.
+Intel Pin allows us to instrument single instructions in the assembly to generate 
+the appropriate trace information to construct our dataflow graph. 
+We opted to use dynamic analysis in our approach as it simplifies the approach of finding missed vectorization when 
+compared to an approach using static analysis. For finding vectorization opportunities 
+with complex control-flow it is still necessary to use a hybrid approach in order to check for false-positives (or negatives?).
+Imagine the case of a masked add/sub operation on vectors. 
+If running with the array c = {0} or {1}, we will observe that this is a trivial vectorization, 
+when, instead, it is more involved then optimizing it with a vaddps.
+XXX mettere codice e inserire questo sotto
 Given the trace of execution of a program (instructions and memory accesses), one can build a dataflow graph, on which a dataflow analysis 
 can be performed to identify  ``parallel'' computations and thus, vectorization opportunities.
 
-However, we foresee that building the dataflow graph will likely be the greatest challenge this project poses. An alternatively,
-would this challenge be too big of a one, could be to simply analyze the program trace directly, to track down for example repeating accesses
-to increasing (or decreasing) memory addresses that would be vectorizable.
+However, we foresee that building the dataflow graph will likely be the greatest challenge this project poses. An alternative,
+would this challenge turn out to be too big of a one, could be to simply analyze the program trace directly, to track down for example repeating accesses
+to increasing (or decreasing) memory addresses that would be vectorizable but are not.
 
+\subsection{Examples of missed vectorization}
+https://godbolt.org/z/K6T3TG5Wb
+XXX spiegare differenza tra gcc e clang
 \subsection{Test Inputs}
 To test our results, we will use an already existing autovectorization benchmark such as \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}.
 Other random program generators such \texttt{YARPGen}\footnote{https://github.com/intel/yarpgen} could be used to generate more, less specific, test inputs.
