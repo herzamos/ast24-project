@@ -280,7 +280,7 @@ vector operations but one can consider complex control flow that can't be vector
 To fix this issue we can either use static analysis or consider the control 
 flow operation in our dataflow graph.
 We plan on using the second approach as it is less complex to implement and are 
-aware of lost precision this results in.
+aware of the loss in precision this results in.
 
 %%Given the trace of execution of a program (instructions and memory accesses), one can build a dataflow graph, on which a dataflow analysis 
 %%can be performed to identify  ``parallel'' computations and thus, vectorization opportunities.
@@ -325,7 +325,7 @@ and our own PinTool to extract relevant traces.
 To test our results, we will use an already existing autovectorization benchmark such as \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC\_2}}.
 Other random program generators such \texttt{YARPGen}\footnote{\url{https://github.com/intel/yarpgen}} could be used to generate more, less specific, test inputs.
 
-\section{Implementation and Experimential Settings}
+\section{Implementation and Experimental Settings}
 To ease our work, and build a first prototype of our project, we focused on a specific version of a specific compiler, namely \texttt{gcc 13.2}.
 
 
