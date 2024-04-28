@@ -279,11 +279,23 @@ However, we foresee that building the dataflow graph will likely be the greatest
 would this challenge turn out to be too big of a one, could be to simply analyze the program trace directly, to track down for example repeating accesses
 to increasing (or decreasing) memory addresses that would be vectorizable but are not.
 
-\subsection{Examples of missed vectorization}
+\subsection{Examples}
+To find examples of missed vectorization opportunities we conducted a small research throughout various online resources, namely:
+\begin{itemize}
+  \item The \texttt{llvm} forum (\url{https://discourse.llvm.org/})
+  \item The \texttt{llvm} issue tracker (\url{https://github.com/llvm/llvm-project/issues})
+  \item The \texttt{gcc} bug tracker (\url{https://gcc.gnu.org/bugzilla/})
+\end{itemize}
+This research aided us into refining the focu sof this project by making us aware of real and existing challenges that widely
+used compiler face when vectorizing code. On top of that, it also helped us better understand which patterns are more prone to go 
+``unvectorized''. We hereby report two indicative examples of the collection of unvectorized pieces of code we compiled.
+\subsubsection{Example 1}
 https://godbolt.org/z/K6T3TG5Wb
 XXX spiegare differenza tra gcc e clang
+\subsubsection{Example 2}
+https://godbolt.org/z/Mh8Y9d41G
 \subsection{Test Inputs}
-To test our results, we will use an already existing autovectorization benchmark such as \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}.
+To test our results, we will use an already existing autovectorization benchmark: \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}.
 Other random program generators such \texttt{YARPGen}\footnote{https://github.com/intel/yarpgen} could be used to generate more, less specific, test inputs.
 
 \section{Implementation and Experimential Settings}
