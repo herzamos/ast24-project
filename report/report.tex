@@ -231,7 +231,7 @@ the compiler will produce the following vectorized code (note the use of wider i
 
 \noindent The main goal of this project is to develop a method for identifying missed opportunities 
 for vectorization in existing code. That is, given an existing binary, we want to identify pieces of code
-and procedures that could be vectorized but are not.
+and procedures that could have been vectorized by the compiler but were not.
 
 \section{Related Work}
 Autovectorization is \textit{difficult}, compilers tend to miss many optimizations (as shown by \citet{Feng2021})
@@ -323,19 +323,28 @@ we predict that such less specific inputs could hardly contain code that can be 
 As mentioned previously, we will test our implementation (implemented using the latest version of Intel Pin) using the latests versions of 
 both \texttt{gcc} (13.2) and \texttt{clang} (18.1.0). In order to do so, we use pieces of code from the \texttt{TSVC} test suite
 that are known to be vectorizable, pass them to \texttt{gcc} and \texttt{clang} preventing them to vectorize the resulting binary and then test 
-if our implementation can actually spot the (induced) missing vectorization opportunities.
+if our implementation can actually spot the (induced) missing vectorization opportunities. 
+A diagram representing the pipeline of this project is provided in Figure~\ref{fig:pipeline}.
 
-\subsection{Current state of the implemntation (as of 28.04.2024)}
-All the code of this project can be viewed at the following link: \url{https://github.com/herzamos/ast24-project/}.
+\begin{figure}[h!]
+  \includegraphics*[width=0.9\linewidth]{img/pipeline.png}
+  \caption{Sketch of the pipeline of the whole project}
+  \label{fig:pipeline}
+\end{figure}
 
 As the possibility space of different kinds of missed vectorization opportunities is enourmous we decided to focus on some specific patterns.
 Initially our approach will be to be able to recognize basic missed 
-vectorizations, which don't appear in the wild anymore, like the one shown in 
-\ref{lst:copy_compiled}. To do so more effectively, we will start from the top of the code snippets collection from \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC_2/blob/master/src/tsvc.c}} that contains
-various vectorizable pieces of code, ranging from trivial sum of vectors to more intricated and convoluted operations.
+vectorizations, which don't appear in the wild anymore, like the one shown in Listing~\ref{lst:copy_compiled}. To do so more effectively, we will start from the top of the code snippets collection from \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC_2/blob/master/src/tsvc.c}} that contains
+various vectorizable pieces of code of increasing complexity, ranging from trivial sum of vectors to more intricated and convoluted operations.
+
 Afterwards we will be focusing on pattern-matching the access patterns found in the two examples described in \ref{examples}, which is non-trivial work.
 For this we will be using a combination of Pin's built in Dynamic Control-flow Graph Generation\footnote{\url{https://www.intel.com/content/www/us/en/developer/articles/technical/pintool-dcfg.html}} 
-and our own PinTool to extract relevant traces.
+and our own PinTool to extract the trace.
+
+\subsection{Current state of the implemntation (as of 28.04.2024)}
+All the code of this project can be viewed at the following link: \url{https://github.com/herzamos/ast24-project/}.
+At the moment, we are able to correctly instrument the binary code and, leveraging Intel Pin tools, generate 
+a code trace that tracks all the memory accesses (both reads and writes).
 
 %%
 %% The acknowledgments section is defined using the "acks" environment
