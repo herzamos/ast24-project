@@ -262,7 +262,7 @@ an example on how a dataflow graph could look like is given on Figure~\ref{fig:d
 
 \subsection{Dynamic Analysis}
 In order to build a dataflow graph we will be using the dynamic analysis framework 
-\texttt{Intel Pin}\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}.
+\texttt{Intel Pin}\footnote{\url{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}}.
 Intel Pin allows us to instrument single instructions in the assembly to generate 
 the appropriate trace information to construct our dataflow graph. 
 We opted to use dynamic analysis in our approach as it simplifies the approach of finding missed vectorization when 
@@ -279,15 +279,44 @@ However, we foresee that building the dataflow graph will likely be the greatest
 would this challenge turn out to be too big of a one, could be to simply analyze the program trace directly, to track down for example repeating accesses
 to increasing (or decreasing) memory addresses that would be vectorizable but are not.
 
-\subsection{Examples of missed vectorization}
-https://godbolt.org/z/K6T3TG5Wb
-XXX spiegare differenza tra gcc e clang
+\subsection{Examples of missed vectorization} \label{examples}
+By searching on the different bug and issue trackers of the clang and gcc 
+compiler we found two examples where the latest version of a compiler does not 
+generate vectorized code. For this we are considering the latests versions of 
+both gcc (13.2) and clang (18.1.0).
+\subsubsection{Example 1}
+The following examples has been taken from the gcc bug tracker\footnote{\url{https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96888}}.
+\lstinputlisting[caption={\texttt{example1.c}}, label={lst:ex1}]{listings/ex1.cpp}
+One would expect the compiler to generate a mask from the \texttt{word} variable 
+and perform masked multiplication to vectorize the code.
+Compiling this code with the \texttt{-O3} flag on gcc yields no vectorized code 
+as shown in Listing \ref{lst:ex1_gcc}, whereas clang unrolls the inner loop and, 
+as expected, makes extensive use of vector instructions\footnote{\url{https://godbolt.org/z/W8v4Pc463}}.
+\lstinputlisting[caption={\texttt{example1.c} compiled with \texttt{gcc -O3}}, label={lst:ex1_gcc}]{listings/ex1_gcc.S}
+
+
+
+\subsection{Approach XXX: change name}
+Our goal in the project is to be able to test for missed vectorization 
+opportunities. 
+As the possibility space of different kinds of missed vectorization 
+opportunities is enourmous we will be focusing on some specific patterns.
+Initially our approach will be to be able to recognize basic missed 
+vectorizations, which don't appear in the wild anymore, like the one shown in 
+\ref{lst:copy_compiled}.
+Afterwards we will be focusing on pattern-matching the access patterns found in 
+the two examples described in \ref{examples}, which is non-trivial work.
+For this we will be using a combination of Pin's built in Dynamic Control-flow 
+Graph Generation\footnote{\url{https://www.intel.com/content/www/us/en/developer/articles/technical/pintool-dcfg.html}} 
+and our own PinTool to extract relevant traces.
+
+
 \subsection{Test Inputs}
-To test our results, we will use an already existing autovectorization benchmark such as \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}.
-Other random program generators such \texttt{YARPGen}\footnote{https://github.com/intel/yarpgen} could be used to generate more, less specific, test inputs.
+To test our results, we will use an already existing autovectorization benchmark such as \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC\_2}}.
+Other random program generators such \texttt{YARPGen}\footnote{\url{https://github.com/intel/yarpgen}} could be used to generate more, less specific, test inputs.
 
 \section{Implementation and Experimential Settings}
-To ease our work, and build a first prototype of our project, we focused on a specific version of a specific compiler, namely \texttt{gcc 11.4}.
+To ease our work, and build a first prototype of our project, we focused on a specific version of a specific compiler, namely \texttt{gcc 13.2}.
 
 
 %%
