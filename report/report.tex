@@ -250,9 +250,9 @@ by post-processing compiled code (\citet{Porpodas2021}) or by applying Machine L
 \section{Approach}
 \subsection{Dataflow Analysis}
 Let's look at Listing~\ref{lst:copy_compiled}: there, we can realize that 
-the\texttt{load} and \texttt{store} instructions are completely independent (from other instructions of the same type) 
+the \texttt{load} and \texttt{store} instructions are completely independent (from other instructions of the same type) 
 and could, theoretically, be computed in parallel, therefore vectorized. This can be concluded by simply looking at the dataflow,
-an example on how a dataflow graph could look like is given on Figure~\ref{fig:dataflow}.
+an example on how a dataflow graph could look like is given in Figure~\ref{fig:dataflow}.
 
 \begin{figure}[h!]
   \includegraphics*[width=0.4\linewidth]{img/dataflow.png}
@@ -266,16 +266,26 @@ In order to build a dataflow graph we will be using the dynamic analysis framewo
 Intel Pin allows us to instrument single instructions in the assembly to generate 
 the appropriate trace information to construct our dataflow graph. 
 We opted to use dynamic analysis in our approach as it simplifies the approach of finding missed vectorization when 
-compared to an approach using static analysis. For finding vectorization opportunities 
-with complex control-flow it is still necessary to use a hybrid approach in order to check for false-positives (or negatives?).
-Imagine the case of a masked add/sub operation on vectors. 
-If running with the array c = {0} or {1}, we will observe that this is a trivial vectorization, 
-when, instead, it is more involved then optimizing it with a vaddps.
-XXX mettere codice e inserire questo sotto
-Given the trace of execution of a program (instructions and memory accesses), one can build a dataflow graph, on which a dataflow analysis 
-can be performed to identify  ``parallel'' computations and thus, vectorization opportunities.
+compared to an approach using static analysis. 
+When using dynamic analysis one needs to be careful not to falsely report code with 
+complex control flow as non-optimized only considering the memory accesses 
+observed by dynamic analysis.
+\lstinputlisting[caption={Example of XXX}, label={lst:dyn}]{listings/dyn.c}
+Assuming that in an execution of function \texttt{dyn} from Listing \ref{lst:dyn} 
+we have that every element of array \texttt{c} is 0. In this case we would 
+observe that \texttt{a = 4 * b} and vectorization is trivial using the \texttt{addps} instruction.
+Therefore, we would flag this code as missing vectorization without considering 
+the control flow operation (this example is trivially vectorizable using masked 
+vector operations but one can consider complex control flow that can't be vectorized). 
+To fix this issue we can either use static analysis or consider the control 
+flow operation in our dataflow graph.
+We plan on using the second approach as it is less complex to implement and are 
+aware of lost precision this results in.
 
-However, we foresee that building the dataflow graph will likely be the greatest challenge this project poses. An alternative,
+%%Given the trace of execution of a program (instructions and memory accesses), one can build a dataflow graph, on which a dataflow analysis 
+%%can be performed to identify  ``parallel'' computations and thus, vectorization opportunities.
+
+All in all, we foresee that building the dataflow graph will likely be the greatest challenge this project poses. An alternative,
 would this challenge turn out to be too big of a one, could be to simply analyze the program trace directly, to track down for example repeating accesses
 to increasing (or decreasing) memory addresses that would be vectorizable but are not.
 
