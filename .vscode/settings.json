@@ -2,5 +2,8 @@
     "cSpell.words": [
         "autovectorization",
         "vectorizing"
-    ]
+    ],
+    "files.associations": {
+        "ex2_clang.C": "cpp"
+    }
 }

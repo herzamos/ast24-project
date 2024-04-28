@@ -4,7 +4,6 @@ void dyn(float *a, float *b, uint8_t *c, unsigned int n) {
         if (c[i]) {
             a[i] = 2 * b[i];
         } else {
-
             a[i] = 4 * b[i];
         }
     }
