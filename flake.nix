@@ -25,6 +25,7 @@
         defaultPackage = fhsEnv;
         devShell = pkgs.mkShell {
           buildInputs = [fhsEnv pkgs.z3 ];
+          packages = [pkgs.texlive.combined.scheme-full];
           #shellHook = ''
           #  export LD_LIBRARY_PATH=":${pkgs.z3}/lib:LD_LIBRARY_PATH"
           #'';

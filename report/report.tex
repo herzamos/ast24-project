@@ -250,9 +250,9 @@ by post-processing compiled code (\citet{Porpodas2021}) or by applying Machine L
 \section{Approach}
 \subsection{Dataflow Analysis}
 Let's look at Listing~\ref{lst:copy_compiled}: there, we can realize that 
-the\texttt{load} and \texttt{store} instructions are completely independent (from other instructions of the same type) 
+the \texttt{load} and \texttt{store} instructions are completely independent (from other instructions of the same type) 
 and could, theoretically, be computed in parallel, therefore vectorized. This can be concluded by simply looking at the dataflow,
-an example on how a dataflow graph could look like is given on Figure~\ref{fig:dataflow}.
+an example on how a dataflow graph could look like is given in Figure~\ref{fig:dataflow}.
 
 \begin{figure}[h!]
   \includegraphics*[width=0.4\linewidth]{img/dataflow.png}
@@ -262,22 +262,64 @@ an example on how a dataflow graph could look like is given on Figure~\ref{fig:d
 
 \subsection{Dynamic Analysis}
 In order to build a dataflow graph we will be using the dynamic analysis framework 
-\texttt{Intel Pin}\footnote{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}.
+\texttt{Intel Pin}\footnote{\url{https://software.intel.com/sites/landingpage/pintool/docs/98830/Pin/doc/html/index.html}}.
 Intel Pin allows us to instrument single instructions in the assembly to generate 
 the appropriate trace information to construct our dataflow graph. 
 We opted to use dynamic analysis in our approach as it simplifies the approach of finding missed vectorization when 
-compared to an approach using static analysis. For finding vectorization opportunities 
-with complex control-flow it is still necessary to use a hybrid approach in order to check for false-positives (or negatives?).
-Imagine the case of a masked add/sub operation on vectors. 
-If running with the array c = {0} or {1}, we will observe that this is a trivial vectorization, 
-when, instead, it is more involved then optimizing it with a vaddps.
-XXX mettere codice e inserire questo sotto
-Given the trace of execution of a program (instructions and memory accesses), one can build a dataflow graph, on which a dataflow analysis 
-can be performed to identify  ``parallel'' computations and thus, vectorization opportunities.
+compared to an approach using static analysis. 
+When using dynamic analysis one needs to be careful not to falsely report code with 
+complex control flow as non-optimized only considering the memory accesses 
+observed by dynamic analysis.
+\lstinputlisting[caption={Example of XXX}, label={lst:dyn}]{listings/dyn.c}
+Assuming that in an execution of function \texttt{dyn} from Listing \ref{lst:dyn} 
+we have that every element of array \texttt{c} is 0. In this case we would 
+observe that \texttt{a = 4 * b} and vectorization is trivial using the \texttt{addps} instruction.
+Therefore, we would flag this code as missing vectorization without considering 
+the control flow operation (this example is trivially vectorizable using masked 
+vector operations but one can consider complex control flow that can't be vectorized). 
+To fix this issue we can either use static analysis or consider the control 
+flow operation in our dataflow graph.
+We plan on using the second approach as it is less complex to implement and are 
+aware of the loss in precision this results in.
 
-However, we foresee that building the dataflow graph will likely be the greatest challenge this project poses. An alternative,
+%%Given the trace of execution of a program (instructions and memory accesses), one can build a dataflow graph, on which a dataflow analysis 
+%%can be performed to identify  ``parallel'' computations and thus, vectorization opportunities.
+
+All in all, we foresee that building the dataflow graph will likely be the greatest challenge this project poses. An alternative,
 would this challenge turn out to be too big of a one, could be to simply analyze the program trace directly, to track down for example repeating accesses
 to increasing (or decreasing) memory addresses that would be vectorizable but are not.
+
+\subsection{Examples of missed vectorization} \label{examples}
+By searching on the different bug and issue trackers of the clang and gcc 
+compiler we found two examples where the latest version of a compiler does not 
+generate vectorized code. For this we are considering the latests versions of 
+both gcc (13.2) and clang (18.1.0).
+\subsubsection{Example 1}
+The following examples has been taken from the gcc bug tracker\footnote{\url{https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96888}}.
+\lstinputlisting[caption={\texttt{example1.c}}, label={lst:ex1}]{listings/ex1.cpp}
+One would expect the compiler to generate a mask from the \texttt{word} variable 
+and perform masked multiplication to vectorize the code.
+Compiling this code with the \texttt{-O3} flag on gcc yields no vectorized code 
+as shown in Listing \ref{lst:ex1_gcc}, whereas clang unrolls the inner loop and, 
+as expected, makes extensive use of vector instructions\footnote{\url{https://godbolt.org/z/W8v4Pc463}}.
+\lstinputlisting[caption={\texttt{example1.c} compiled with \texttt{gcc -O3}}, label={lst:ex1_gcc}]{listings/ex1_gcc.S}
+
+
+
+\subsection{Approach XXX: change name}
+Our goal in the project is to be able to test for missed vectorization 
+opportunities. 
+As the possibility space of different kinds of missed vectorization 
+opportunities is enourmous we will be focusing on some specific patterns.
+Initially our approach will be to be able to recognize basic missed 
+vectorizations, which don't appear in the wild anymore, like the one shown in 
+\ref{lst:copy_compiled}.
+Afterwards we will be focusing on pattern-matching the access patterns found in 
+the two examples described in \ref{examples}, which is non-trivial work.
+For this we will be using a combination of Pin's built in Dynamic Control-flow 
+Graph Generation\footnote{\url{https://www.intel.com/content/www/us/en/developer/articles/technical/pintool-dcfg.html}} 
+and our own PinTool to extract relevant traces.
+
 
 \subsection{Examples}
 To find examples of missed vectorization opportunities we conducted a small research throughout various online resources, namely:
@@ -295,11 +337,13 @@ XXX spiegare differenza tra gcc e clang
 \subsubsection{Example 2}
 https://godbolt.org/z/Mh8Y9d41G
 \subsection{Test Inputs}
+To test our results, we will use an already existing autovectorization benchmark such as \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC\_2}}.
+Other random program generators such \texttt{YARPGen}\footnote{\url{https://github.com/intel/yarpgen}} could be used to generate more, less specific, test inputs.
 To test our results, we will use an already existing autovectorization benchmark: \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}.
 Other random program generators such \texttt{YARPGen}\footnote{https://github.com/intel/yarpgen} could be used to generate more, less specific, test inputs.
 
-\section{Implementation and Experimential Settings}
-To ease our work, and build a first prototype of our project, we focused on a specific version of a specific compiler, namely \texttt{gcc 11.4}.
+\section{Implementation and Experimental Settings}
+To ease our work, and build a first prototype of our project, we focused on a specific version of a specific compiler, namely \texttt{gcc 13.2}.
 
 
 %%
