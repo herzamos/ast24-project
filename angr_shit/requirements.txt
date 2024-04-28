@@ -1,4 +1,0 @@
-angr
-networkx
-matplotlib
-scipy
