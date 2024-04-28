@@ -71,10 +71,10 @@ fn main() {
 fn to_svg(graph: &Graph<Operand, String>) {
     let svg = exec_dot(
         format!("{:?}", Dot::with_config(graph, &[])),
-        vec![Format::Svg.into()],
+        vec![Format::Png.into()],
     )
     .unwrap();
-    File::create("output.svg").unwrap().write_all(&svg).unwrap();
+    File::create("output.png").unwrap().write_all(&svg).unwrap();
 }
 
 enum Operand {

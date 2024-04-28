@@ -241,7 +241,7 @@ vectorizing a small piece of code requires large changes to the whole code base
 
 Compilers have been shown to widely miss out on vectorization opportunities. As an example, \citet{Maleki2021} report that
 in their research only 45-71\% of the loops in a benchmark they developed and only a few loops from the real applications 
-are vectorized by the compilers they evaluated, which include widely popular compilers such as \texttt{GCC} (version 4.7.0).
+are vectorized by the compilers they evaluated, which include widely popular compilers such as \texttt{gcc} (version 4.7.0).
 
 Auto-vectorization is still an open field of research: attempts have been made at ``fixing'' the compiler work
 by post-processing compiled code (\citet{Porpodas2021}) or by applying Machine Learning to produce improved vectorization schemes
@@ -286,11 +286,11 @@ We plan on using the second approach as it is less complex to implement and are 
 %%Given the trace of execution of a program (instructions and memory accesses), one can build a dataflow graph, on which a dataflow analysis 
 %%can be performed to identify  ``parallel'' computations and thus, vectorization opportunities.
 
-All in all, we foresee that building the dataflow graph will likely be the greatest challenge this project poses. An alternative,
+All in all, we foresee that building a (correct) dataflow graph will likely be the greatest challenge this project poses. An alternative,
 would this challenge turn out to be too big of a one, could be to simply analyze the program trace directly, to track down for example repeating accesses
 to increasing (or decreasing) memory addresses that would be vectorizable but are not.
 
-\subsection{Examples of missed vectorization opportunities} \label{examples}
+\subsection{Real world examples of missed vectorization opportunities} \label{examples}
 By searching on the different bugs and issues trackers of the \texttt{clang} and \texttt{gcc} 
 compilers we found two examples where the latest version of a compiler does not 
 generate vectorized code. For this we are considering the latests versions of 
@@ -312,7 +312,7 @@ The following example has been taken from the \texttt{clang} issues tracker\foot
 It appears that when the function in Listing~\ref{lst:ex2} is inlined, \texttt{clang} fails at correctly vectorizing it. However
 \texttt{gcc} correctly vectorizes the code without any issue.
 A side-by-side comparison of the two compilers' work can be found 
-at the following link: \url{https://gcc.godbolt.org/z/PbGfe6da7}.
+at the following link: \url{https://gcc.godbolt.org/z/x6nEh8oqe}.
 
 \subsection{Test Inputs}
 To test our results, we will use code snippets from an already existing autovectorization test suite: \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}, first described by \citet{Callahan88}.
@@ -333,18 +333,31 @@ A diagram representing the pipeline of this project is provided in Figure~\ref{f
 \end{figure}
 
 As the possibility space of different kinds of missed vectorization opportunities is enourmous we decided to focus on some specific patterns.
-Initially our approach will be to be able to recognize basic missed 
-vectorizations, which don't appear in the wild anymore, like the one shown in Listing~\ref{lst:copy_compiled}. To do so more effectively, we will start from the top of the code snippets collection from \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC_2/blob/master/src/tsvc.c}} that contains
+Initially our goal will be to be able to recognize basic missed vectorizations, which don't appear ``in the wild'' anymore, like the one shown in Listing~\ref{lst:copy_compiled}. 
+To do so more effectively, we will start from the top of the code snippets collection from \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC_2/blob/master/src/tsvc.c}} that contains
 various vectorizable pieces of code of increasing complexity, ranging from trivial sum of vectors to more intricated and convoluted operations.
 
-Afterwards we will be focusing on pattern-matching the access patterns found in the two examples described in \ref{examples}, which is non-trivial work.
-For this we will be using a combination of Pin's built in Dynamic Control-flow Graph Generation\footnote{\url{https://www.intel.com/content/www/us/en/developer/articles/technical/pintool-dcfg.html}} 
-and our own PinTool to extract the trace.
+Afterwards we will be focusing on pattern-matching the access patterns found in the two examples described in Section~\ref{examples}, which is non-trivial work.
+For this we will be using a our own PinTool to extract the trace and our program 
+\texttt{vecspot} to generate the dataflow graph and find missed vectorizations.
 
 \subsection{Current state of the implementation (as of 28.04.2024)}
-All the code of this project can be viewed at the following link: \url{https://github.com/herzamos/ast24-project/}.
-At the moment, we are able to correctly instrument the binary code and, leveraging Intel Pin tools, generate 
-a code trace that tracks all the memory accesses (both reads and writes).
+All the code related to this project can be viewed at the following link: \url{https://github.com/herzamos/ast24-project/}.
+
+At the moment, we are able to correctly instrument the binary code and, leveraging our own PinTool, generate 
+a code trace that tracks all the memory accesses (both reads and writes) and basic operations between registers like adds and mults.
+On top of that, we can succesfully generate a graph from this trace on which we should be able to perform the dataflow analysis. 
+Compiling the code in Listing~\ref{lst:add3}, generating a trace leveraging our 
+PinTool and analyzing the trace using our program \texttt{vecspot} we obtain the 
+dataflow graph shown in Figure~\ref{fig:add3_dataflow}.
+
+\lstinputlisting[caption={Initial test program for \texttt{vecspot}: \texttt{add3.c}}, label={lst:add3}, language=C]{listings/add3.c}
+
+\begin{figure}[h!]
+  \includegraphics[width=0.9\linewidth]{img/add3.png}
+  \caption{Dataflow graph of \texttt{add3.c}}
+  \label{fig:add3_dataflow}
+\end{figure}
 
 %%
 %% The acknowledgments section is defined using the "acks" environment
