@@ -307,3 +307,5 @@ TSWLatexianTemp*
 pin/
 obj-intel64
 .vscode
+target
+Cargo.lock
