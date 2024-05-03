@@ -30,6 +30,7 @@
       {
         defaultPackage = fhsEnv;
         devShell = pkgs.mkShell {
+          packages = [pkgs.texlive.combined.scheme-full];
           buildInputs = [rust fhsEnv pkgs.z3 pkgs.graphviz ];
           #shellHook = ''
           #  export LD_LIBRARY_PATH=":${pkgs.z3}/lib:LD_LIBRARY_PATH"

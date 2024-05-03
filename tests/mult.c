@@ -1,4 +1,4 @@
-#define LEN 64
+#define LEN 4
 int main(int argc, char **argv) {
   volatile int a[LEN] = { 0 };
   volatile int b[LEN] = { 0 }; 
