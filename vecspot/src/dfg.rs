@@ -11,7 +11,7 @@ pub type Dfg = Graph<Operand, String>;
 
 pub trait DfgOperations {
     fn from_trace(trace: Vec<TracePoint>) -> Self;
-    fn to_png(&self);
+    fn to_png(&self, name: &str);
 }
 
 impl DfgOperations for Dfg {
@@ -22,15 +22,14 @@ impl DfgOperations for Dfg {
         let mut reg_map = HashMap::new();
 
         for trace_point in trace {
-            // if let Op::MemOp(op) = ins.op {
-            // graph.add_node(Operand::Memory(op.addr));
-            // }
             // TODO: this is dogshit pls fix
             match trace_point.op {
                 TraceOperation::BinOp(op) => {
                     let reg1 = reg_map.get(&op.reg1);
                     let reg2 = reg_map.get(&op.reg2);
 
+                    // this skips registers that have not been written by to by
+                    // an access to memory
                     if reg1.is_none() || reg2.is_none() {
                         continue;
                     }
@@ -53,26 +52,41 @@ impl DfgOperations for Dfg {
                         TraceMemOpType::Read => {
                             let reg_idx = graph.add_node(Operand::Register(op.reg.clone()));
                             reg_map.insert(op.reg, reg_idx);
-                            graph.add_edge(mem, reg_idx, "Read".into())
+                            graph.add_edge(mem, reg_idx, "Read".into());
                         }
                         TraceMemOpType::Write => {
                             let reg = *reg_map.get(&op.reg).unwrap();
-                            graph.add_edge(reg, mem, "Write".into())
+                            graph.add_edge(reg, mem, "Write".into());
+                            mem_map.insert(op.addr, graph.add_node(Operand::Memory(op.addr)));
                         }
                     };
                 }
             }
         }
-        graph
+
+        // remove memory locations that are not used
+        graph.filter_map(
+            |i, node| {
+                if graph.neighbors_undirected(i).next().is_none() {
+                    None
+                } else {
+                    Some((*node).clone())
+                }
+            },
+            |_, edge| Some(edge.clone()),
+        )
     }
 
-    fn to_png(&self) {
+    fn to_png(&self, name: &str) {
         let png = exec_dot(
             format!("{:?}", Dot::with_config(self, &[])),
             vec![Format::Png.into()],
         )
         .unwrap();
-        File::create("output.png").unwrap().write_all(&png).unwrap();
+        File::create(format!("{}.png", name))
+            .unwrap()
+            .write_all(&png)
+            .unwrap();
     }
 }
 
@@ -83,6 +97,7 @@ impl DfgOperations for Dfg {
 // }
 
 /// An operand of the computation
+#[derive(Clone)]
 pub enum Operand {
     Memory(u64),
     Register(String),

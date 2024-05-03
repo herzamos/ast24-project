@@ -16,6 +16,6 @@ fn main() {
     println!("parsing of trace done");
     let graph = Dfg::from_trace(trace_points);
     println!("creation of graph done");
-    graph.to_png();
+    graph.to_png("out");
     println!("export to png done");
 }
