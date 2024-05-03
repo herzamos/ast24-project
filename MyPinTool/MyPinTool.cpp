@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
     if (PIN_Init(argc, argv)) return Usage();
 
     /* Create trace file */
-    trace = fopen("mem.out", "w");
+    trace = fopen("out.trace", "w");
 
 
     /* Add instrumentation */

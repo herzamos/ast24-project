@@ -1,0 +1,21 @@
+0x401153: BinOp + rdx rax
+0x401156: READ 0x7ffd487b4374 ecx
+0x401169: BinOp + rdx rax
+0x40116c: READ 0x7ffd487b4380 edx
+0x40117f: BinOp + rsi rax
+0x401182: BinOp + ecx edx
+0x401184: WRITE edx 0x7ffd487b438c
+0x401153: BinOp + rdx rax
+0x401156: READ 0x7ffd487b4378 ecx
+0x401169: BinOp + rdx rax
+0x40116c: READ 0x7ffd487b4384 edx
+0x40117f: BinOp + rsi rax
+0x401182: BinOp + ecx edx
+0x401184: WRITE edx 0x7ffd487b4390
+0x401153: BinOp + rdx rax
+0x401156: READ 0x7ffd487b437c ecx
+0x401169: BinOp + rdx rax
+0x40116c: READ 0x7ffd487b4388 edx
+0x40117f: BinOp + rsi rax
+0x401182: BinOp + ecx edx
+0x401184: WRITE edx 0x7ffd487b4394
