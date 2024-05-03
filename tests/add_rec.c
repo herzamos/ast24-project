@@ -3,10 +3,11 @@
 #define LEN 3
 
 static int add_function(volatile int *a, volatile int *b, volatile int *c, int n) {
-  for (int i = 0; i < n; ++i) {
-    c[i] = a[i] + b[i];
-  }
-  return 0;
+    if (n) {
+        c[0] = a[0] + b[0];
+        add_function(&a[1], &b[1], &c[1], n-1);
+    }
+    return 0;
 }
 
 int main(int argc, char **argv) {

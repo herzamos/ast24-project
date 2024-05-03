@@ -19,25 +19,24 @@ using std::string;
 // Global variables
 /* ================================================================== */
 
-UINT64 memAccesses = 0;
-BOOL countAccess = true;
-uintptr_t upper = 0x401198;
-uintptr_t lower = 0x401126;
+BOOL should_trace = false;
 FILE *trace;
 
 VOID RecordMemRead(VOID *ip, VOID *addr, REG reg) { 
-    if (countAccess) { 
-        fprintf(trace, "%p: READ %p %s\n", ip, addr, REG_StringShort(reg).c_str());
-    }
+    if (!should_trace) return;
+
+    fprintf(trace, "%p: READ %p %s\n", ip, addr, REG_StringShort(reg).c_str());
 }
 
 VOID RecordMemWrite (VOID *ip, VOID *addr, REG reg) { 
-    if (countAccess) {
-        fprintf(trace, "%p: WRITE %s %p\n", ip, REG_StringShort(reg).c_str(), addr);
-    }
+    if (!should_trace) return;
+
+    fprintf(trace, "%p: WRITE %s %p\n", ip, REG_StringShort(reg).c_str(), addr);
 }
 
-VOID RecordBinOp(VOID *ip, OPCODE op, REG reg1, REG reg2) {
+VOID RecordBinOp(VOID *ip, OPCODE op, REG reg1, REG reg2, UINT64 imm, BOOL is_imm) {
+    if (!should_trace) return;
+
     std::string reg1s = REG_StringShort(reg1);
     std::string reg2s = REG_StringShort(reg2);
     std::string ops;
@@ -50,14 +49,19 @@ VOID RecordBinOp(VOID *ip, OPCODE op, REG reg1, REG reg2) {
     } else if (op == XED_ICLASS_DIV) {
         ops = "/";
     }
-    fprintf(trace, "%p: BinOp %s %s %s\n", ip, ops.c_str(), reg2s.c_str(), reg1s.c_str());
+    if (is_imm) {
+        fprintf(trace, "%p: BinOp %s #%ld %s\n", ip, ops.c_str(), imm, reg1s.c_str());
+    } else {
+        fprintf(trace, "%p: BinOp %s %s %s\n", ip, ops.c_str(), reg2s.c_str(), reg1s.c_str());
+    }
+}
+
+VOID marker() {
+    should_trace = !should_trace;
 }
 
 
 VOID Instruction(INS ins, VOID *v) {
-
-    if (!(lower <= INS_Address(ins) && INS_Address(ins) <= upper)) return;
-
     if (INS_IsMemoryRead(ins) || INS_IsMemoryWrite(ins)) {
 
         UINT32 mem_operands = INS_MemoryOperandCount(ins);
@@ -78,15 +82,28 @@ VOID Instruction(INS ins, VOID *v) {
     }
     UINT32 op = INS_Opcode(ins);
     if (op == XED_ICLASS_ADD || op == XED_ICLASS_SUB || op == XED_ICLASS_MUL || op == XED_ICLASS_DIV) {
+        BOOL is_imm = INS_OperandIsImmediate(ins, 1);
+        UINT64 imm = is_imm ? INS_OperandImmediate(ins, 1) : 0;
         INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordBinOp, 
             IARG_INST_PTR, 
             IARG_UINT32, op, 
             IARG_UINT32, INS_OperandReg(ins, 0), 
             IARG_UINT32, INS_OperandReg(ins, 1), 
+            IARG_UINT64, imm,
+            IARG_BOOL, is_imm,
             IARG_END
         );
     }
 
+}
+
+VOID Function(RTN rtn, VOID *v) {
+    RTN_Open(rtn);
+    if (RTN_Name(rtn) == "markerf") {
+        cerr << "found marker" << endl;
+        RTN_InsertCall(rtn, IPOINT_BEFORE, (AFUNPTR)marker, IARG_END);
+    }
+    RTN_Close(rtn);
 }
 
 
@@ -103,7 +120,6 @@ VOID Fini(INT32 code, VOID* v)
     cerr << "MyPinTool analysis results: " << endl;
     cerr << "===============================================" << endl;
 
-    cerr << "Memory accesses in main: " << memAccesses << std::endl;
     fclose(trace);
 }
 
@@ -119,8 +135,9 @@ int main(int argc, char* argv[])
     /* Create trace file */
     trace = fopen("out.trace", "w");
 
-
+    PIN_InitSymbols();
     /* Add instrumentation */
+    RTN_AddInstrumentFunction(Function, NULL);
     INS_AddInstrumentFunction(Instruction, NULL);
     PIN_AddFiniFunction(Fini, NULL);
 
