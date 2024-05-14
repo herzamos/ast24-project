@@ -1,15 +1,18 @@
 use std::str::FromStr;
 
 /// Struct representing one line of the trace file, we call this a `TracePoint`
+#[derive(Debug)]
 pub struct TracePoint {
     pub ip: u64,
     pub op: TraceOperation,
 }
 
 /// Type of operation that has been recorded in the `TracePoint`
+#[derive(Debug)]
 pub enum TraceOperation {
     BinOp(TraceBinOp),
     MemOp(TraceMemOp),
+    Pass,
 }
 
 /// Binary operation like addition etc.
@@ -21,7 +24,7 @@ pub struct TraceBinOp {
 }
 
 /// Type of the memory operation
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TraceMemOpType {
     Read,
     Write,

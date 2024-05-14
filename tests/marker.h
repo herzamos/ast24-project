@@ -2,6 +2,6 @@
 #define __MARKERF_H__
 
 void markerf();
-void markerf() {}
+void __attribute__((optimize("O0"))) markerf() {}
 
 #endif

@@ -39,7 +39,7 @@ VOID RecordBinOp(VOID *ip, OPCODE op, REG reg1, REG reg2, UINT64 imm, BOOL is_im
 
     std::string reg1s = REG_StringShort(reg1);
     std::string reg2s = REG_StringShort(reg2);
-    std::string ops;
+    std::string ops = "idk";
     if (op == XED_ICLASS_ADD) {
         ops = "+";
     } else if (op == XED_ICLASS_SUB) {
@@ -67,16 +67,30 @@ VOID Instruction(INS ins, VOID *v) {
         UINT32 mem_operands = INS_MemoryOperandCount(ins);
         /* skip reads and writes to the stack */
         if (INS_IsStackRead(ins) || INS_IsStackWrite(ins)) return;
-
+        cerr << "loop: " << std::hex << INS_Address(ins) << endl;
         for (UINT32 memop = 0; memop < mem_operands; ++memop) {
 
             if (INS_MemoryOperandIsRead(ins, memop)) {
-                INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordMemRead, IARG_INST_PTR, IARG_MEMORYOP_EA, memop, IARG_UINT32, INS_RegW(ins, 0), IARG_END);
-
+                INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordMemRead, IARG_INST_PTR, IARG_MEMORYOP_EA, memop, IARG_UINT32, INS_OperandReg(ins, memop), IARG_END);
+                // cerr << "READ regs:" << endl;
+                // for (UINT32 i = 0; i < mem_operands; ++i) {
+                //     cerr << "\t" << i << "\t" << REG_StringShort(INS_RegW(ins, i)) << endl;
+                // }
             }
 
             if (INS_MemoryOperandIsWritten(ins, memop)) {
-                INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordMemWrite, IARG_INST_PTR, IARG_MEMORYOP_EA, memop, IARG_UINT32, INS_RegR(ins, 1), IARG_END);
+                // FIXME: This is hacky as fuck is there a better way to do it???
+                int i = 0;
+                while (INS_RegR(ins, i) != REG_INVALID()) {
+                    cerr << i << REG_StringShort(INS_RegR(ins, i)) << endl;
+                    ++i;
+                }
+                cerr << "index nero: " << i << endl;
+                INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordMemWrite, IARG_INST_PTR, IARG_MEMORYOP_EA, memop, IARG_UINT32, INS_RegR(ins, i-1), IARG_END);
+                // cerr << "WRITE regs:" << endl;
+                // for (UINT32 i = 0; i < 4; ++i) {
+                //     cerr << "\t" << i << "\t" << REG_StringShort(INS_RegR(ins, i)) << endl;
+                // }
             }
         }
     }
@@ -93,6 +107,8 @@ VOID Instruction(INS ins, VOID *v) {
             IARG_BOOL, is_imm,
             IARG_END
         );
+    } else {
+        if (should_trace) cerr << "Mnemonic: " << INS_Mnemonic(ins) << endl;
     }
 
 }

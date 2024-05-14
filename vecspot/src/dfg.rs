@@ -24,6 +24,7 @@ impl DfgOperations for Dfg {
         for trace_point in trace {
             // TODO: this is dogshit pls fix
             match trace_point.op {
+                TraceOperation::Pass => (),
                 TraceOperation::BinOp(op) => {
                     let reg1 = reg_map.get(&op.reg1);
                     let reg2 = reg_map.get(&op.reg2);
