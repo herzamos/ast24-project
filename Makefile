@@ -12,7 +12,7 @@ endef
 
 define create_trace
 	@echo "Creating trace for $(1)"
-	${PWD}/pin/pin -t MyPinTool/obj-intel64/MyPinTool.so -- ${TESTS}/$(1)/$(1)
+	${PWD}/pin/pin -t MyPinTool/obj-intel64/MyPinTool.so -- ${TESTS}/$(1)/$(1) &>$(TESTS)/$(1)/$(1).log
 	mv out.trace "${TESTS}/$(1)/$(1).trace"
 endef
 
@@ -36,5 +36,5 @@ clean: $(addprefix clean_,$(RELATIVE_TARGETS))
 
 realclean: $(addprefix realclean_,$(RELATIVE_TARGETS))
 
-$(foreach name,$(RELATIVE_TARGETS),$(eval clean_$(name):; rm -f $(TESTS)/$(name)/$(name){,.trace}))
-$(foreach name,$(RELATIVE_TARGETS),$(eval realclean_$(name):; rm -f $(TESTS)/$(name)/$(name){,.trace,.png}))
+$(foreach name,$(RELATIVE_TARGETS),$(eval clean_$(name):; rm -f $(TESTS)/$(name)/$(name){,.trace,.log}))
+$(foreach name,$(RELATIVE_TARGETS),$(eval realclean_$(name):; rm -f $(TESTS)/$(name)/$(name){,.trace,.png,.log}))
