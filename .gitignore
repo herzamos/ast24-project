@@ -620,5 +620,10 @@ target
 Cargo.lock
 
 
-tests
-!*.c
+out.trace
+# tests/**/*.png
+# tests/**/*.trace
+
+tests/**/*
+!tests/*/
+!tests/**/*.c
