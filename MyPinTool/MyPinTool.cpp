@@ -44,7 +44,7 @@ VOID RecordBinOp(VOID *ip, OPCODE op, REG reg1, REG reg2, UINT64 imm, BOOL is_im
         ops = "+";
     } else if (op == XED_ICLASS_SUB) {
         ops = "-";
-    } else if (op == XED_ICLASS_MUL) {
+    } else if (op == XED_ICLASS_MUL || op == XED_ICLASS_IMUL) {
         ops = "*";
     } else if (op == XED_ICLASS_DIV) {
         ops = "/";
@@ -67,7 +67,6 @@ VOID Instruction(INS ins, VOID *v) {
         UINT32 mem_operands = INS_MemoryOperandCount(ins);
         /* skip reads and writes to the stack */
         if (INS_IsStackRead(ins) || INS_IsStackWrite(ins)) return;
-        cerr << "loop: " << std::hex << INS_Address(ins) << endl;
         for (UINT32 memop = 0; memop < mem_operands; ++memop) {
 
             if (INS_MemoryOperandIsRead(ins, memop)) {
@@ -94,8 +93,9 @@ VOID Instruction(INS ins, VOID *v) {
             }
         }
     }
+    cerr << "loop: " << std::hex << INS_Address(ins) << endl;
     UINT32 op = INS_Opcode(ins);
-    if (op == XED_ICLASS_ADD || op == XED_ICLASS_SUB || op == XED_ICLASS_MUL || op == XED_ICLASS_DIV) {
+    if (op == XED_ICLASS_ADD || op == XED_ICLASS_SUB || op == XED_ICLASS_MUL || op == XED_ICLASS_IMUL || op == XED_ICLASS_DIV) {
         BOOL is_imm = INS_OperandIsImmediate(ins, 1);
         UINT64 imm = is_imm ? INS_OperandImmediate(ins, 1) : 0;
         INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordBinOp, 
