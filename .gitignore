@@ -618,3 +618,7 @@ obj-intel64
 .vscode
 target
 Cargo.lock
+
+
+tests
+!*.c
