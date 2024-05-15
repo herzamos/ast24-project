@@ -1,7 +1,9 @@
 #include "marker.h"
 #include <immintrin.h>
 
-static int add_function(int *a, int *b, int *c, int n) {
+#define LEN 4
+
+static int __attribute__((optimize("O3"))) add_function(int *a, int *b, int *c, int n) {
   for (int i = 0; i < n; ++i) {
     c[i] = a[i] + b[i];
   }
