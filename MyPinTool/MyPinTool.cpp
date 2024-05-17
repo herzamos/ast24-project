@@ -34,26 +34,24 @@ VOID RecordMemWrite (VOID *ip, VOID *addr, REG reg) {
     fprintf(trace, "%p: WRITE %s %p\n", ip, REG_StringShort(reg).c_str(), addr);
 }
 
-VOID RecordBinOp(VOID *ip, OPCODE op, REG reg1, REG reg2, UINT64 imm, BOOL is_imm) {
+VOID RecordBinOp(VOID *ip, VOID *op, REG reg1, REG reg2, UINT64 imm, BOOL is_imm) {
     if (!should_trace) return;
 
     std::string reg1s = REG_StringShort(reg1);
     std::string reg2s = REG_StringShort(reg2);
-    std::string ops = "idk";
-    if (op == XED_ICLASS_ADD) {
-        ops = "+";
-    } else if (op == XED_ICLASS_SUB) {
-        ops = "-";
-    } else if (op == XED_ICLASS_MUL || op == XED_ICLASS_IMUL) {
-        ops = "*";
-    } else if (op == XED_ICLASS_DIV) {
-        ops = "/";
-    }
     if (is_imm) {
-        fprintf(trace, "%p: BinOp %s #%ld %s\n", ip, ops.c_str(), imm, reg1s.c_str());
+        fprintf(trace, "%p: BinOp %s #%ld %s %s\n", ip, (char *)op, imm, reg1s.c_str(), reg1s.c_str());
     } else {
-        fprintf(trace, "%p: BinOp %s %s %s\n", ip, ops.c_str(), reg2s.c_str(), reg1s.c_str());
+        fprintf(trace, "%p: BinOp %s %s %s %s\n", ip, (char *)op, reg2s.c_str(), reg1s.c_str(), reg1s.c_str());
     }
+}
+VOID RecordAVXBinOp(VOID *ip, VOID *op, REG reg1, REG reg2, REG reg3) {
+    if (!should_trace) return;
+
+    std::string reg1s = REG_StringShort(reg1);
+    std::string reg2s = REG_StringShort(reg2);
+    std::string reg3s = REG_StringShort(reg3);
+    fprintf(trace, "%p: BinOp %s %s %s %s\n", ip, (char *)op, reg3s.c_str(), reg2s.c_str(), reg1s.c_str());
 }
 
 VOID marker() {
@@ -81,10 +79,9 @@ VOID Instruction(INS ins, VOID *v) {
                 // FIXME: This is hacky as fuck is there a better way to do it???
                 int i = 0;
                 while (INS_RegR(ins, i) != REG_INVALID()) {
-                    cerr << i << REG_StringShort(INS_RegR(ins, i)) << endl;
+                    if (should_trace) cerr << i << REG_StringShort(INS_RegR(ins, i)) << endl;
                     ++i;
                 }
-                cerr << "index nero: " << i << endl;
                 INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordMemWrite, IARG_INST_PTR, IARG_MEMORYOP_EA, memop, IARG_UINT32, INS_RegR(ins, i-1), IARG_END);
                 // cerr << "WRITE regs:" << endl;
                 // for (UINT32 i = 0; i < 4; ++i) {
@@ -93,24 +90,51 @@ VOID Instruction(INS ins, VOID *v) {
             }
         }
     }
-    cerr << "loop: " << std::hex << INS_Address(ins) << endl;
+    // Trace binary operations
+    if (INS_OperandCount(ins) < 2) return;
     UINT32 op = INS_Opcode(ins);
-    if (op == XED_ICLASS_ADD || op == XED_ICLASS_SUB || op == XED_ICLASS_MUL || op == XED_ICLASS_IMUL || op == XED_ICLASS_DIV) {
-        BOOL is_imm = INS_OperandIsImmediate(ins, 1);
-        UINT64 imm = is_imm ? INS_OperandImmediate(ins, 1) : 0;
-        INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordBinOp, 
-            IARG_INST_PTR, 
-            IARG_UINT32, op, 
+
+    // we leak le memory
+    const char *mnemonic = INS_Mnemonic(ins).c_str();
+    void *ptr = calloc(strlen(mnemonic) + 1, 1);
+    strcpy((char *)ptr, mnemonic);
+
+    // Check if AVX
+    if (should_trace) cerr << "IP: " << std::hex << INS_Address(ins) << endl;
+    xed_extension_enum_t ext = xed_inst_extension(xed_decoded_inst_inst(INS_XedDec(ins)));
+    if (ext == XED_EXTENSION_AVX || ext == XED_EXTENSION_AVX2 || ext == XED_EXTENSION_AVX2GATHER) {
+        cerr << "AVX instruction" << endl;
+        // If we have less than 3 operands it's a memory operation
+        if (INS_OperandCount(ins) < 3) return;
+
+        INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordAVXBinOp,
+        IARG_INST_PTR,
+            IARG_PTR, ptr, 
             IARG_UINT32, INS_OperandReg(ins, 0), 
             IARG_UINT32, INS_OperandReg(ins, 1), 
-            IARG_UINT64, imm,
-            IARG_BOOL, is_imm,
+            IARG_UINT32, INS_OperandReg(ins, 2), 
             IARG_END
         );
-    } else {
-        if (should_trace) cerr << "Mnemonic: " << INS_Mnemonic(ins) << endl;
-    }
 
+    } else {
+        if (op == XED_ICLASS_ADD || op == XED_ICLASS_SUB || op == XED_ICLASS_MUL || op == XED_ICLASS_IMUL || op == XED_ICLASS_DIV) {
+            BOOL is_imm = INS_OperandIsImmediate(ins, 1);
+            UINT64 imm = is_imm ? INS_OperandImmediate(ins, 1) : 0;
+
+            INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordBinOp, 
+                IARG_INST_PTR,
+                IARG_PTR, ptr, 
+                IARG_UINT32, INS_OperandReg(ins, 0), 
+                IARG_UINT32, INS_OperandReg(ins, 1), 
+                IARG_UINT64, imm,
+                IARG_BOOL, is_imm,
+                IARG_END
+            );
+
+        } else {
+            if (should_trace) cerr << "Mnemonic: " << INS_Mnemonic(ins) << endl;
+        }
+    }
 }
 
 VOID Function(RTN rtn, VOID *v) {

@@ -623,6 +623,7 @@ Cargo.lock
 out.trace
 # tests/**/*.png
 # tests/**/*.trace
+settings.json
 
 tests/**/*
 !tests/*/

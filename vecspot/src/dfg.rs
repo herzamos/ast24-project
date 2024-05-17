@@ -73,18 +73,10 @@ impl Dfg {
         match trace_point.op {
             TraceOperation::Pass => (),
             TraceOperation::BinOp(op) => {
-                let reg1 = self.reg_map.get(&op.reg1);
-                let reg2 = self.reg_map.get(&op.reg2);
+                let reg1_idx = self.access_reg(op.src1, true);
+                let reg2_idx = self.access_reg(op.src2.clone(), true);
 
-                // this skips registers that have not been written by to by
-                // an access to memory
-                if reg1.is_none() || reg2.is_none() {
-                    return;
-                }
-                let reg1_idx = self.access_reg(op.reg1, true);
-                let reg2_idx = self.access_reg(op.reg2.clone(), true);
-
-                let reg3_idx = self.access_reg(op.reg2, false);
+                let reg3_idx = self.access_reg(op.dest, false);
 
                 self.graph.add_edge(reg1_idx, reg3_idx, op.op.clone());
                 self.graph.add_edge(reg2_idx, reg3_idx, op.op.clone());
@@ -120,16 +112,16 @@ impl DfgOperations for Dfg {
         }
 
         // remove memory locations that are not used
-        s.graph.filter_map(
-            |i, node| {
-                if s.graph.neighbors_undirected(i).next().is_none() {
-                    None
-                } else {
-                    Some((*node).clone())
-                }
-            },
-            |_, edge| Some(edge.clone()),
-        );
+        // s.graph.filter_map(
+        //     |i, node| {
+        //         if s.graph.neighbors_undirected(i).next().is_none() {
+        //             None
+        //         } else {
+        //             Some((*node).clone())
+        //         }
+        //     },
+        //     |_, edge| Some(edge.clone()),
+        // );
         s
     }
 

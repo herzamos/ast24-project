@@ -41,11 +41,12 @@ fn combine_mem_bin_op(trace_points: &mut [TracePoint]) {
             println!("Funny");
             if let TraceOperation::MemOp(memop) = &trace_points[i].op {
                 if let TraceOperation::BinOp(bop) = &trace_points[i + 1].op {
-                    assert!(memop.typ == TraceMemOpType::Read);
+                    // assert!(memop.typ == TraceMemOpType::Read);
                     let trace_op = TraceOperation::BinOp(TraceBinOp {
                         op: bop.op.clone(),
-                        reg1: "tmp".into(),
-                        reg2: bop.reg2.clone(),
+                        src1: "tmp".into(),
+                        src2: bop.src2.clone(),
+                        dest: bop.dest.clone(),
                     });
 
                     trace_points[i] = TracePoint {

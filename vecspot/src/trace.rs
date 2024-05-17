@@ -1,10 +1,18 @@
 use std::str::FromStr;
 
 /// Struct representing one line of the trace file, we call this a `TracePoint`
-#[derive(Debug)]
 pub struct TracePoint {
     pub ip: u64,
     pub op: TraceOperation,
+}
+
+impl std::fmt::Debug for TracePoint {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("TracePoint")
+            .field("ip", &format_args!("{:X}", &self.ip))
+            .field("op", &self.op)
+            .finish()
+    }
 }
 
 /// Type of operation that has been recorded in the `TracePoint`
@@ -19,8 +27,9 @@ pub enum TraceOperation {
 #[derive(Debug, Clone)]
 pub struct TraceBinOp {
     pub op: String,
-    pub reg1: String,
-    pub reg2: String,
+    pub src1: String,
+    pub src2: String,
+    pub dest: String,
 }
 
 /// Type of the memory operation
@@ -82,16 +91,25 @@ impl FromStr for TracePoint {
             let typ = TraceMemOpType::Write;
             TraceOperation::MemOp(TraceMemOp { typ, addr, reg })
         } else if ins[0] == "BinOp" {
-            if ins.len() != 4 {
+            if ins.len() < 4 || 5 < ins.len() {
                 return Err(ParseError(format!(
                     "wrong amount of args, got {}",
                     ins.len()
                 )));
             }
             let op = ins[1].into();
-            let reg1 = ins[2].into();
-            let reg2 = ins[3].into();
-            TraceOperation::BinOp(TraceBinOp { op, reg1, reg2 })
+            let src1 = ins[2].into();
+            let src2: String = ins[3].into();
+            let dest = match ins.get(4) {
+                None => src2.clone(),
+                Some(&x) => x.to_owned(),
+            };
+            TraceOperation::BinOp(TraceBinOp {
+                op,
+                src1,
+                src2,
+                dest,
+            })
         } else {
             panic!("illegal instruction")
         };

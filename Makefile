@@ -1,5 +1,6 @@
 CC = gcc
-CFLAGS = -Iinclude/ -O0 -g
+# CFLAGS = -Iinclude/ -O0 -g
+CFLAGS = -Iinclude/ -O3 -g -mavx
 PWD = $(shell pwd)
 TESTS = ${PWD}/tests
 TARGETS = $(wildcard $(TESTS)/*)
