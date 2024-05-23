@@ -5,6 +5,7 @@ use std::{collections::HashMap, fmt::Debug};
 
 use graphviz_rust::{cmd::Format, exec_dot};
 use petgraph::graph::NodeIndex;
+use petgraph::stable_graph::StableDiGraph;
 use petgraph::{dot::Dot, graph::DiGraph, Graph};
 
 use crate::trace::{TraceMemOpType, TraceOperation, TracePoint};
@@ -12,7 +13,7 @@ use crate::trace::{TraceMemOpType, TraceOperation, TracePoint};
 // pub type Dfg = Graph<Operand, String>;
 
 pub struct Dfg {
-    graph: Graph<Operand, String>,
+    pub graph: StableDiGraph<Operand, String>,
     reg_map: HashMap<String, NodeIndex>,
     mem_map: HashMap<u64, NodeIndex>,
 }
@@ -20,7 +21,7 @@ pub struct Dfg {
 impl Dfg {
     fn new() -> Self {
         Self {
-            graph: DiGraph::new(),
+            graph: StableDiGraph::new(),
             mem_map: HashMap::new(),
             reg_map: HashMap::new(),
         }
@@ -100,7 +101,7 @@ impl Dfg {
 
 pub trait DfgOperations {
     fn from_trace(trace: Vec<TracePoint>) -> Self;
-    fn to_png(&self, name: &str);
+    fn save(&self, name: &str);
 }
 
 impl DfgOperations for Dfg {
@@ -125,7 +126,7 @@ impl DfgOperations for Dfg {
         s
     }
 
-    fn to_png(&self, name: &str) {
+    fn save(&self, name: &str) {
         let png = exec_dot(
             format!("{:?}", Dot::with_config(&self.graph, &[])),
             vec![Format::Png.into()],
@@ -134,6 +135,15 @@ impl DfgOperations for Dfg {
         File::create(format!("{}.png", name))
             .unwrap()
             .write_all(&png)
+            .unwrap();
+        let svg = exec_dot(
+            format!("{:?}", Dot::with_config(&self.graph, &[])),
+            vec![Format::Svg.into()],
+        )
+        .unwrap();
+        File::create(format!("{}.svg", name))
+            .unwrap()
+            .write_all(&svg)
             .unwrap();
     }
 }

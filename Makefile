@@ -19,7 +19,8 @@ endef
 
 define create_graph
 	@echo "Creating graph for $(1)"
-	cd "${PWD}/vecspot"; cargo run -- ${TESTS}/$(1)/$(1).trace; mv out.png $(TESTS)/$(1)/$(1).png
+	cd "${PWD}/vecspot"; cargo run -- ${TESTS}/$(1)/$(1).trace; \
+	mv *.png $(TESTS)/$(1)/; mv *.svg $(TESTS)/$(1)/
 endef
 
 pin_tool:
@@ -38,4 +39,4 @@ clean: $(addprefix clean_,$(RELATIVE_TARGETS))
 realclean: $(addprefix realclean_,$(RELATIVE_TARGETS))
 
 $(foreach name,$(RELATIVE_TARGETS),$(eval clean_$(name):; rm -f $(TESTS)/$(name)/$(name){,.trace,.log}))
-$(foreach name,$(RELATIVE_TARGETS),$(eval realclean_$(name):; rm -f $(TESTS)/$(name)/$(name){,.trace,.png,.log}))
+$(foreach name,$(RELATIVE_TARGETS),$(eval realclean_$(name):; find $(TESTS)/$(name) -type f ! -name '$(name).c' -delete))
