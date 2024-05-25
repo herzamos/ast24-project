@@ -110,8 +110,17 @@ impl Dfg {
             }
         }
     }
+
+    pub fn get_read_ip(&self, idx: NodeIndex) -> Option<u64> {
+        self.read_ip_map.get(&idx).copied()
+    }
+
+    pub fn get_write_ip(&self, idx: NodeIndex) -> Option<u64> {
+        self.write_ip_map.get(&idx).copied()
+    }
 }
 
+/// Trait to to create and save a dataflow graph generated from a trace
 pub trait DfgOperations {
     fn from_trace(trace: Vec<TracePoint>) -> Self;
     fn save(&self, name: &str);
@@ -125,17 +134,6 @@ impl DfgOperations for Dfg {
             s.add_trace_point(trace_point);
         }
 
-        // remove memory locations that are not used
-        // s.graph.filter_map(
-        //     |i, node| {
-        //         if s.graph.neighbors_undirected(i).next().is_none() {
-        //             None
-        //         } else {
-        //             Some((*node).clone())
-        //         }
-        //     },
-        //     |_, edge| Some(edge.clone()),
-        // );
         s
     }
 
@@ -161,26 +159,11 @@ impl DfgOperations for Dfg {
     }
 }
 
-/// Node of the `DfgGraph` representing an operand of the instruction
-// pub struct DfgNode {
-//     id: u32,
-//     loc: Operand,
-// }
-
 /// An operand of the computation
 #[derive(Clone)]
 pub enum Operand {
     Memory(u64),
     Register(String),
-}
-
-impl Operand {
-    pub fn is_mem_op(&self) -> bool {
-        match self {
-            Self::Memory(_) => true,
-            Self::Register(_) => false,
-        }
-    }
 }
 
 impl Debug for Operand {
