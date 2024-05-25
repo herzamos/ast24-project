@@ -4,30 +4,35 @@ use std::io::Write;
 use std::{collections::HashMap, fmt::Debug};
 
 use graphviz_rust::{cmd::Format, exec_dot};
+use petgraph::dot::Dot;
 use petgraph::graph::NodeIndex;
 use petgraph::stable_graph::StableDiGraph;
-use petgraph::{dot::Dot, graph::DiGraph, Graph};
 
 use crate::trace::{TraceMemOpType, TraceOperation, TracePoint};
 
 // pub type Dfg = Graph<Operand, String>;
 
+#[derive(Default)]
 pub struct Dfg {
     pub graph: StableDiGraph<Operand, String>,
     reg_map: HashMap<String, NodeIndex>,
     mem_map: HashMap<u64, NodeIndex>,
+    pub read_ip_map: HashMap<NodeIndex, u64>,
+    pub write_ip_map: HashMap<NodeIndex, u64>,
 }
 
 impl Dfg {
     fn new() -> Self {
-        Self {
-            graph: StableDiGraph::new(),
-            mem_map: HashMap::new(),
-            reg_map: HashMap::new(),
-        }
+        Self::default()
     }
 
     fn access_reg(&mut self, reg_name: String, read: bool) -> NodeIndex {
+        if reg_name.starts_with('#') {
+            println!("Adde new imm");
+            let idx = self.graph.add_node(Operand::Register(reg_name.clone()));
+            self.reg_map.insert(reg_name, idx);
+            return idx;
+        }
         match self.reg_map.entry(reg_name.clone()) {
             Entry::Occupied(o) => {
                 if read {
@@ -81,6 +86,10 @@ impl Dfg {
 
                 self.graph.add_edge(reg1_idx, reg3_idx, op.op.clone());
                 self.graph.add_edge(reg2_idx, reg3_idx, op.op.clone());
+
+                self.read_ip_map.insert(reg1_idx, op.ip);
+                self.read_ip_map.insert(reg2_idx, op.ip);
+                self.write_ip_map.insert(reg3_idx, op.ip);
             }
             TraceOperation::MemOp(op) => {
                 let is_read = match op.typ {
@@ -91,8 +100,12 @@ impl Dfg {
                 let reg_idx = self.access_reg(op.reg.clone(), !is_read);
                 if is_read {
                     self.graph.add_edge(mem_idx, reg_idx, "Read".into());
+                    self.read_ip_map.insert(mem_idx, op.ip);
+                    self.write_ip_map.insert(reg_idx, op.ip);
                 } else {
                     self.graph.add_edge(reg_idx, mem_idx, "Write".into());
+                    self.read_ip_map.insert(reg_idx, op.ip);
+                    self.write_ip_map.insert(mem_idx, op.ip);
                 }
             }
         }
@@ -159,6 +172,15 @@ impl DfgOperations for Dfg {
 pub enum Operand {
     Memory(u64),
     Register(String),
+}
+
+impl Operand {
+    pub fn is_mem_op(&self) -> bool {
+        match self {
+            Self::Memory(_) => true,
+            Self::Register(_) => false,
+        }
+    }
 }
 
 impl Debug for Operand {

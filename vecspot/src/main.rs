@@ -2,6 +2,7 @@ use std::env;
 use std::fs;
 
 use crate::dfg::{Dfg, DfgOperations};
+use crate::graph_algos::color_graph;
 use crate::graph_algos::connected_components;
 use crate::trace::TraceBinOp;
 use crate::trace::TraceMemOp;
@@ -45,6 +46,7 @@ fn main() {
     connected_components(&mut graph);
     graph.save("reduced");
     println!("export to png done");
+    // color_graph(&graph);
 }
 
 #[derive(Debug, Default)]
