@@ -16,22 +16,16 @@
         rust = pkgs.rust-bin.stable.latest.default.override {
           extensions = [ "rust-src" "cargo" "rustc" ];
         };
-        fhsEnv = pkgs.buildFHSUserEnv {
-          name = "fhs-env";
-          targetPkgs = pkgs: (with pkgs; [
-            python311
-            python311Packages.pip
-            z3
-            graphviz
-          ]);
-          runScript = "bash";
-        };
       in
       {
-        defaultPackage = fhsEnv;
         devShell = pkgs.mkShell {
-          packages = [pkgs.texlive.combined.scheme-full];
-          buildInputs = [rust fhsEnv pkgs.z3 pkgs.graphviz ];
+          packages = [
+            (pkgs.python3.withPackages (p: [
+              p.z3-solver
+            ]))
+            pkgs.texlive.combined.scheme-full
+          ];
+          buildInputs = [ rust pkgs.z3 pkgs.graphviz ];
           #shellHook = ''
           #  export LD_LIBRARY_PATH=":${pkgs.z3}/lib:LD_LIBRARY_PATH"
           #'';

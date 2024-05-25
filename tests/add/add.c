@@ -2,7 +2,7 @@
 // #define LEN 64
 #define LEN 4
 
-static int add_function(int *a, int *b, int *c, int n) {
+static __attribute__((optimize("O3"))) int add_function(int *a, int *b, int *c, int n) {
   for (int i = 0; i < n; ++i) {
     c[i] = a[i] + b[i];
   }

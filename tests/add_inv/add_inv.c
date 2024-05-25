@@ -1,14 +1,14 @@
-// #define LEN 64
 #include "marker.h"
 // #define LEN 64
 #define LEN 4
 
-static int add_function(int *a, int *b, int *c, int n) {
+static __attribute__((optimize("O0"))) int add_function(int *a, int *b, int *c, int n) {
   for (int i = 0; i < n; ++i) {
-    c[i] = a[i] + b[i];
-  }
-  for (int i = 0; i < n; ++i) {
-    c[i] = a[i] + b[i];
+    if (i & 1) {
+      c[i] = a[i] + b[i];
+    } else {
+      c[i] = b[i] + a[i];
+    }
   }
   return 0;
 }

@@ -1,7 +1,10 @@
+PWD = $(shell pwd)
+
 CC = gcc
 # CFLAGS = -Iinclude/ -O0 -g
 CFLAGS = -Iinclude/ -O3 -g -mavx
-PWD = $(shell pwd)
+PIN_DIR = ${PWD}/pin
+
 TESTS = ${PWD}/tests
 TARGETS = $(wildcard $(TESTS)/*)
 RELATIVE_TARGETS = $(patsubst $(TESTS)/%,%,$(TARGETS))
@@ -13,7 +16,7 @@ endef
 
 define create_trace
 	@echo "Creating trace for $(1)"
-	${PWD}/pin/pin -t MyPinTool/obj-intel64/MyPinTool.so -- ${TESTS}/$(1)/$(1) &>$(TESTS)/$(1)/$(1).log
+	${PIN_DIR}/pin -t MyPinTool/obj-intel64/MyPinTool.so -- ${TESTS}/$(1)/$(1) &>$(TESTS)/$(1)/$(1).log
 	mv out.trace "${TESTS}/$(1)/$(1).trace"
 endef
 
@@ -25,7 +28,7 @@ endef
 
 pin_tool:
 	@echo "${PWD}"
-	cd "${PWD}/MyPinTool"; make PIN_ROOT="../pin" obj-intel64/MyPinTool.so -j8
+	cd "${PWD}/MyPinTool"; make PIN_ROOT="$(PIN_DIR)" obj-intel64/MyPinTool.so -j8
 
 all: $(RELATIVE_TARGETS)
 

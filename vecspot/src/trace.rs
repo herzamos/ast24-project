@@ -26,6 +26,7 @@ pub enum TraceOperation {
 /// Binary operation like addition etc.
 #[derive(Debug, Clone)]
 pub struct TraceBinOp {
+    pub ip: u64,
     pub op: String,
     pub src1: String,
     pub src2: String,
@@ -42,6 +43,7 @@ pub enum TraceMemOpType {
 /// Memory operation like reads and writes
 #[derive(Debug, Clone)]
 pub struct TraceMemOp {
+    pub ip: u64,
     pub typ: TraceMemOpType,
     pub addr: u64,
     pub reg: String,
@@ -78,7 +80,7 @@ impl FromStr for TracePoint {
             let addr = parse0x(ins[1])?;
             let reg = ins[2].into();
             let typ = TraceMemOpType::Read;
-            TraceOperation::MemOp(TraceMemOp { typ, addr, reg })
+            TraceOperation::MemOp(TraceMemOp { ip, typ, addr, reg })
         } else if ins[0] == "WRITE" {
             if ins.len() != 3 {
                 return Err(ParseError(format!(
@@ -89,7 +91,7 @@ impl FromStr for TracePoint {
             let addr = parse0x(ins[2])?;
             let reg = ins[1].into();
             let typ = TraceMemOpType::Write;
-            TraceOperation::MemOp(TraceMemOp { typ, addr, reg })
+            TraceOperation::MemOp(TraceMemOp { ip, typ, addr, reg })
         } else if ins[0] == "BinOp" {
             if ins.len() < 4 || 5 < ins.len() {
                 return Err(ParseError(format!(
@@ -105,6 +107,7 @@ impl FromStr for TracePoint {
                 Some(&x) => x.to_owned(),
             };
             TraceOperation::BinOp(TraceBinOp {
+                ip,
                 op,
                 src1,
                 src2,
