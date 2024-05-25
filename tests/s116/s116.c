@@ -1,14 +1,14 @@
 #include "marker.h"
 // #define LEN 64
-#define LEN 7
+#define LEN 10
 
-static __attribute__((optimize("O3"))) int s116(int *a, int *b, int n) {
-  for (int i = 0; i < LEN - 5; i += 5) {
+static int s116(int *a, int *b, int n) {
+  for (int i = 0; i < LEN - 3; i += 3) {
             a[i] = a[i + 1] * a[i];
             a[i + 1] = a[i + 2] * a[i + 1];
             a[i + 2] = a[i + 3] * a[i + 2];
-            a[i + 3] = a[i + 4] * a[i + 3];
-            a[i + 4] = a[i + 5] * a[i + 4];
+            // a[i + 3] = a[i + 4] * a[i + 3];
+            // a[i + 4] = a[i + 5] * a[i + 4];
         }
   return 0;
 }

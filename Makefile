@@ -2,7 +2,7 @@ PWD = $(shell pwd)
 
 CC = gcc
 # CFLAGS = -Iinclude/ -O0 -g
-CFLAGS = -Iinclude/ -O3 -g -mavx
+CFLAGS = -Iinclude/ -O3 -g -fno-tree-vectorize
 PIN_DIR = ${PWD}/pin
 
 TESTS = ${PWD}/tests
