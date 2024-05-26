@@ -628,3 +628,5 @@ settings.json
 tests/**/*
 !tests/*/
 !tests/**/*.c
+!tests/**/*.report
+!tests/**/*.png

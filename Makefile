@@ -22,7 +22,7 @@ endef
 
 define create_graph
 	@echo "Creating graph for $(1)"
-	cd "${PWD}/vecspot"; cargo run -- ${TESTS}/$(1)/$(1).trace; \
+	cd "${PWD}/vecspot"; cargo run -- ${TESTS}/$(1)/$(1).trace | tee ${TESTS}/$(1)/$(1).report; \
 	mv *.png $(TESTS)/$(1)/; mv *.svg $(TESTS)/$(1)/
 endef
 
