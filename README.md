@@ -19,3 +19,7 @@ Steps being performed by the `Makefile` are outline here:
 - `out.png`: Complete dataflow graph generated from the trace
 - `reduced.png`: Dataflow graph generated from the trace; irrelevant subgraphs used for computations like loop indices etc. removed
 - `*.report`: Full output of the `vecspot` tool
+
+## Report file
+The report file contains the debug information for each step of the `vecspot` program.
+This includes the creation of the dataflow graph from the trace, the analysis of the dataflow graph itself and a final verdict if the program is likely to be vectorizable.
