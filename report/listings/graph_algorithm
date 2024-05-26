@@ -1,0 +1,14 @@
+for operation in trace {
+  match operation {
+     MemoryOperation(src, dst) => {
+        label = (dst is register) ? "Read" : "Write"
+        add edge from src to dst with label
+     }
+     Operation([srcs], dst) => {
+        for src in srcs {
+           label = mnemonic of operation
+           add edge from src to dst with label
+        }
+     }
+  }
+}

@@ -321,29 +321,11 @@ However, given that such less specific inputs hardly contains code that can be v
 
 \section{Implementation and Experimental Settings}
 
-\subsection{PinTool}
-
-\subsection{Dataflow Graph Generation}
-In order to trace our test program snippets we leverage the Intel Pin framework. Initially we only traced reads 
-and writes to memory that are not performed on stack addresses. This can be used to detect strided 
-accesses to certain memory areas which might be performed inside loops which, in turn, might be vectorizable.
-Having only information about read and writes is not sufficient to check whether or not a program 
-has been correctly vectorized. Therefore, we added tracing for various operations like \texttt{mov} and \texttt{add}. 
-The Pin framework makes it easy to instrument these instructions and trace the mnemonic of the 
-operation performed. We encountered issues when tracing memory operations where the memory operand 
-is neither an immediate or a register, like add \%rcx, 0x8(\%rcx, \%rax, 8), as there are multiple 
-operands making up the memory one. In these cases our traces had some registers being flagged as 
-invalid as they were being accessed by the Pin tool as a standard operand. We weren't able to solve 
-these issues directly in Pin but managed to find a workaround whilst processing the trace (Section XXX).
-Having the ability to trace memory accesses as well as operations performed on registers 
-(including registers from extensions like AVX) we are able to create a dataflow graph.
-
-
 \subsection{Project Pipeline}
 As mentioned previously, we test our implementation (implemented using the latest version of Intel Pin) using the latests versions of 
-both \texttt{gcc} (13.2) and \texttt{clang} (18.1.0). In order to do so, we used pieces of code from the \texttt{TSVC} test suite
-that are known to be vectorizable, passed them to \texttt{gcc} and \texttt{clang} preventing them to vectorize the resulting binary and then tested 
-if our implementation can actually spot the (induced) missing vectorization opportunities. 
+both \texttt{gcc} (13.2) and \texttt{clang} (18.1.0). In order to do so, we use pieces of code from the \texttt{TSVC} test suite
+that are known to be vectorizable, pass them to \texttt{gcc} and \texttt{clang} preventing them to vectorize the resulting binary and then test
+if our implementation can actually spot the (induced) missed vectorization opportunities. 
 A diagram representing the pipeline of this project is provided in Figure~\ref{fig:pipeline}.
 
 \begin{figure}[h!]
@@ -352,38 +334,112 @@ A diagram representing the pipeline of this project is provided in Figure~\ref{f
   \label{fig:pipeline}
 \end{figure}
 
-\subsection*{Project Timeline}
+\subsection{Trace Generation (PinTool)}
+In order to trace our test program snippets we leverage the Intel Pin framework. Initially we only traced reads 
+and writes to memory that are not performed on stack addresses. This can be used to detect strided 
+accesses to certain memory areas which might be performed inside loops which, in turn, might be vectorizable.
+Having only information about read and writes is not sufficient to check whether or not a program 
+has been correctly vectorized. Therefore, we added tracing for various operations like \texttt{mov} and \texttt{add}. 
+The Pin framework makes it easy to instrument these instructions and trace the mnemonic of the 
+operation performed. We encountered issues when tracing memory operations where the memory operand 
+is neither an immediate or a register, like \texttt{add \%rcx, 0x8(\%rcx, \%rax, 8)}, as there are multiple 
+operands making up the memory one. In these cases our traces had some registers being flagged as 
+invalid because they were being accessed by the Pin tool like a standard operand. We weren't able to solve 
+these issues directly in Pin but managed to find a workaround whilst processing the trace (Section XXX).
+Having the ability to trace memory accesses as well as operations performed on registers 
+(including registers from extensions like \texttt{AVX}) we are able to generate a dataflow graph precise
+enough to make conclusions about vectorization.
+An example trace of the program in Listing~\ref{lst:add} is provided in Listing~\ref{lst:add_trace}. 
+
+\lstinputlisting[caption={\texttt{add.c}}, label={lst:add}, language=C]{listings/add.c}
+
+\lstinputlisting[caption={Partial trace of \texttt{add.c}}, label={lst:add_trace}, language=C]{listings/add_trace}
+
+\subsection{Dataflow Graph Generation}
+
+To generate the dataflow we leverage the information contained in the trace, generated in 
+the step before. 
+The graph consist of a directed graph composed of nodes, representing an operand such as a register, an immediate 
+value or a value at a memory location, and edges, representing the operation being performed on these 
+operands.
+Listing~\ref{lst:graph_algorithm} contains a high level overview of our proposed algorithm for graph generation.
+
+\lstinputlisting[caption={Algorithm used to generate dataflow graphs starting from a program trace.}, label={lst:graph_algorithm}, language=C]{listings/graph_algorithm}
+
+It should be noted that each subsequent access to an operand that has been written to can effectively be considered a 
+different operand. Therefore the implementation of the algorithm makes sure to always connect edges using the node 
+corresponding to the latest snapshot at which the operand has been written to.
+
+We made sure that only information that is critical to the data flow of the program is encoded in the graph, through a
+step of reduction. As an example, a register like \texttt{\%rax} could be used as a ``counter'' inside a  
+\texttt{for} loop, and we must make sure that we do not pollute our graph with operations irrelevant to its 
+possible vectorization.
+As the analysis is performed on a trace, the program's control flow is already directly embedded in te dataflow 
+and don't therefore need any of the side-computations.
+Images~\ref{img:add_graph} and \ref{img:add_graph_reduced} provide a concrete example: they are the two graphs generated
+from the \texttt{add.c} function from Listing~\ref{lst:add}
+
+\begin{figure}[h!]
+  \includegraphics*[width=0.9\linewidth]{img/add_graph.png}
+  \caption{Complete graph generated from \texttt{add.c}, not how the second tree from the left is simply the loop index computation and therefore irrelevant for vectorization}
+  \label{fig:add_graph}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics*[width=0.9\linewidth]{img/add_graph_reduced.png}
+  \caption{Reduced graph generated from \texttt{add.c}, note how the loop index computation isn't present}
+  \label{fig:add_graph_reduced}
+\end{figure}
+
+To remove this unnecessary information we determine the connected components of the dataflow graph
+and remove any connected components that do not result in memory being read and then written. 
+This works incredibly well for isolated functions that do not return values. In bigger programs,
+we might have to conserve the connected components that end with a write to \texttt{\%rax} (the return register),
+by instrumenting the return instruction as well.
+
+\subsection{Dataflow Analysis}
 As the possibility space of different kinds of missed vectorization opportunities is enourmous we decided to focus on some specific patterns.
 Initially our goal was be to be able to recognize basic missed vectorizations, which don't appear ``in the wild'' anymore, like the one shown in Listing~\ref{lst:copy_compiled}. 
 To do so more effectively, we started from the top of the code snippets collection from \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC_2/blob/master/src/tsvc.c}} that contains
 various vectorizable pieces of code of increasing complexity, ranging from trivial sum of vectors to more intricated and convoluted operations.
 
+The idea is that \texttt{TSVC} should contain vectorization patterns that are commonly found in every program, 
+and by successfully being able to tell whether one of those snippets was vectorized or not, we believe that our
+analysis could be expanded to bigger and more complicated programs.
+
 Afterwards we focused on pattern-matching the access patterns found in the two examples described in Section~\ref{examples}, which is non-trivial work.
 For this we will be using a our own PinTool to extract the trace and our program 
 \texttt{vecspot} to generate the dataflow graph and find missed vectorizations.
 
-The following section will focus on analyzing, step-by-step how we approached every example from the \texttt{TSVC} test suite, 
+The following section will focus on analyzing, step-by-step how we approached some of the examples from the \texttt{TSVC} test suite, 
 and the titles of the sections will refer to the specific functions contained in it, for an easier reference.
 
 \subsubsection{\texttt{s000} (Linear Dependence Testing, Vectorizable)}
 
-\subsection{Current state of the implementation (as of 28.04.2024)}
+\subsubsection{\texttt{s111} (Linear Dependence Testing, Vectorizable)}
+
+\subsubsection{\texttt{s113} (Linear Dependence Testing, Vectorizable)}
+
+\subsubsection{\texttt{s116} (Linear Dependence Testing, Vectorizable)}
 
 
-At the moment, we are able to correctly instrument the binary code and, leveraging our own PinTool, generate 
-a code trace that tracks all the memory accesses (both reads and writes) and basic operations between registers like adds and mults.
-On top of that, we can succesfully generate a graph from this trace on which we should be able to perform the dataflow analysis. 
-Compiling the code in Listing~\ref{lst:add3}, generating a trace leveraging our 
-PinTool and analyzing the trace using our program \texttt{vecspot} we obtain the 
-dataflow graph shown in Figure~\ref{fig:add3_dataflow}.
+% \subsection{Current state of the implementation (as of 28.04.2024)}
 
-\lstinputlisting[caption={Initial test program for \texttt{vecspot}: \texttt{add3.c}}, label={lst:add3}, language=C]{listings/add3.c}
 
-\begin{figure}[h!]
-  \includegraphics[width=0.9\linewidth]{img/add3.png}
-  \caption{Dataflow graph of \texttt{add3.c}}
-  \label{fig:add3_dataflow}
-\end{figure}
+% At the moment, we are able to correctly instrument the binary code and, leveraging our own PinTool, generate 
+% a code trace that tracks all the memory accesses (both reads and writes) and basic operations between registers like adds and mults.
+% On top of that, we can succesfully generate a graph from this trace on which we should be able to perform the dataflow analysis. 
+% Compiling the code in Listing~\ref{lst:add3}, generating a trace leveraging our 
+% PinTool and analyzing the trace using our program \texttt{vecspot} we obtain the 
+% dataflow graph shown in Figure~\ref{fig:add3_dataflow}.
+
+% \lstinputlisting[caption={Initial test program for \texttt{vecspot}: \texttt{add3.c}}, label={lst:add3}, language=C]{listings/add3.c}
+
+% \begin{figure}[h!]
+%   \includegraphics[width=0.9\linewidth]{img/add3.png}
+%   \caption{Dataflow graph of \texttt{add3.c}}
+%   \label{fig:add3_dataflow}
+% \end{figure}
 
 %%
 %% The acknowledgments section is defined using the "acks" environment

@@ -27,3 +27,8 @@ store rax at a[1]
 
 reg -> a[0]1
 reg -> a[1]1
+
+
+- Build tree
+- Node that gets written with equal stride
+- 

@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
         "autovectorization",
+        "vectorizable",
+        "vectorizes",
         "vectorizing"
     ],
     "files.associations": {
