@@ -315,14 +315,34 @@ A side-by-side comparison of the two compilers' work can be found
 at the following link: \url{https://gcc.godbolt.org/z/x6nEh8oqe}.
 
 \subsection{Test Inputs}
-To test our results, we will use code snippets from an already existing autovectorization test suite: \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}, first described by \citet{Callahan88}.
-Other random program generators such as \texttt{YARPGen}\footnote{https://github.com/intel/yarpgen} could be used to generate more, less specific, test inputs, even though
-we predict that such less specific inputs could hardly contain code that can be vectorized but is not.
+To test our results, we use code snippets from an already existing autovectorization test suite: \texttt{TSVC}\footnote{https://github.com/UoB-HPC/TSVC\_2}, first described by \citet{Callahan88}.
+Other random program generators such as \texttt{YARPGen}\footnote{https://github.com/intel/yarpgen} could be used to generate more, less specific, test inputs.
+However, given that such less specific inputs hardly contains code that can be vectorized but is not, we opted not to utilize them.
 
 \section{Implementation and Experimental Settings}
-As mentioned previously, we will test our implementation (implemented using the latest version of Intel Pin) using the latests versions of 
-both \texttt{gcc} (13.2) and \texttt{clang} (18.1.0). In order to do so, we use pieces of code from the \texttt{TSVC} test suite
-that are known to be vectorizable, pass them to \texttt{gcc} and \texttt{clang} preventing them to vectorize the resulting binary and then test 
+
+\subsection{PinTool}
+
+\subsection{Dataflow Graph Generation}
+In order to trace our test program snippets we leverage the Intel Pin framework. Initially we only traced reads 
+and writes to memory that are not performed on stack addresses. This can be used to detect strided 
+accesses to certain memory areas which might be performed inside loops which, in turn, might be vectorizable.
+Having only information about read and writes is not sufficient to check whether or not a program 
+has been correctly vectorized. Therefore, we added tracing for various operations like \texttt{mov} and \texttt{add}. 
+The Pin framework makes it easy to instrument these instructions and trace the mnemonic of the 
+operation performed. We encountered issues when tracing memory operations where the memory operand 
+is neither an immediate or a register, like add \%rcx, 0x8(\%rcx, \%rax, 8), as there are multiple 
+operands making up the memory one. In these cases our traces had some registers being flagged as 
+invalid as they were being accessed by the Pin tool as a standard operand. We weren't able to solve 
+these issues directly in Pin but managed to find a workaround whilst processing the trace (Section XXX).
+Having the ability to trace memory accesses as well as operations performed on registers 
+(including registers from extensions like AVX) we are able to create a dataflow graph.
+
+
+\subsection{Project Pipeline}
+As mentioned previously, we test our implementation (implemented using the latest version of Intel Pin) using the latests versions of 
+both \texttt{gcc} (13.2) and \texttt{clang} (18.1.0). In order to do so, we used pieces of code from the \texttt{TSVC} test suite
+that are known to be vectorizable, passed them to \texttt{gcc} and \texttt{clang} preventing them to vectorize the resulting binary and then tested 
 if our implementation can actually spot the (induced) missing vectorization opportunities. 
 A diagram representing the pipeline of this project is provided in Figure~\ref{fig:pipeline}.
 
@@ -332,17 +352,23 @@ A diagram representing the pipeline of this project is provided in Figure~\ref{f
   \label{fig:pipeline}
 \end{figure}
 
+\subsection*{Project Timeline}
 As the possibility space of different kinds of missed vectorization opportunities is enourmous we decided to focus on some specific patterns.
-Initially our goal will be to be able to recognize basic missed vectorizations, which don't appear ``in the wild'' anymore, like the one shown in Listing~\ref{lst:copy_compiled}. 
-To do so more effectively, we will start from the top of the code snippets collection from \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC_2/blob/master/src/tsvc.c}} that contains
+Initially our goal was be to be able to recognize basic missed vectorizations, which don't appear ``in the wild'' anymore, like the one shown in Listing~\ref{lst:copy_compiled}. 
+To do so more effectively, we started from the top of the code snippets collection from \texttt{TSVC}\footnote{\url{https://github.com/UoB-HPC/TSVC_2/blob/master/src/tsvc.c}} that contains
 various vectorizable pieces of code of increasing complexity, ranging from trivial sum of vectors to more intricated and convoluted operations.
 
-Afterwards we will be focusing on pattern-matching the access patterns found in the two examples described in Section~\ref{examples}, which is non-trivial work.
+Afterwards we focused on pattern-matching the access patterns found in the two examples described in Section~\ref{examples}, which is non-trivial work.
 For this we will be using a our own PinTool to extract the trace and our program 
 \texttt{vecspot} to generate the dataflow graph and find missed vectorizations.
 
+The following section will focus on analyzing, step-by-step how we approached every example from the \texttt{TSVC} test suite, 
+and the titles of the sections will refer to the specific functions contained in it, for an easier reference.
+
+\subsubsection{\texttt{s000} (Linear Dependence Testing, Vectorizable)}
+
 \subsection{Current state of the implementation (as of 28.04.2024)}
-All the code related to this project can be viewed at the following link: \url{https://github.com/herzamos/ast24-project/}.
+
 
 At the moment, we are able to correctly instrument the binary code and, leveraging our own PinTool, generate 
 a code trace that tracks all the memory accesses (both reads and writes) and basic operations between registers like adds and mults.
