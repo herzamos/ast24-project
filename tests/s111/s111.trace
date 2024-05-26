@@ -1,0 +1,16 @@
+0x40115b: BinOp SUB #1 eax eax
+0x40116c: BinOp ADD rdx rax rax
+0x40116f: READ 0x7fff32f9a750 ecx
+0x401182: BinOp ADD rdx rax rax
+0x401185: READ 0x7fff32f9a764 edx
+0x401198: BinOp ADD rsi rax rax
+0x40119b: BinOp ADD ecx edx edx
+0x40119d: WRITE edx 0x7fff32f9a754
+0x40115b: BinOp SUB #1 eax eax
+0x40116c: BinOp ADD rdx rax rax
+0x40116f: READ 0x7fff32f9a758 ecx
+0x401182: BinOp ADD rdx rax rax
+0x401185: READ 0x7fff32f9a76c edx
+0x401198: BinOp ADD rsi rax rax
+0x40119b: BinOp ADD ecx edx edx
+0x40119d: WRITE edx 0x7fff32f9a75c

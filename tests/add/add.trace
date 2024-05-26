@@ -1,0 +1,20 @@
+0x4011f8: READ 0x7ffd344637e0 ecx
+0x4011fb: READ 0x7ffd344637d0 ecx
+0x4011fb: BinOp ADD *invalid* ecx ecx
+0x4011fe: WRITE ecx 0x7ffd344637f0
+0x401201: BinOp ADD #4 rax rax
+0x4011f8: READ 0x7ffd344637e4 ecx
+0x4011fb: READ 0x7ffd344637d4 ecx
+0x4011fb: BinOp ADD *invalid* ecx ecx
+0x4011fe: WRITE ecx 0x7ffd344637f4
+0x401201: BinOp ADD #4 rax rax
+0x4011f8: READ 0x7ffd344637e8 ecx
+0x4011fb: READ 0x7ffd344637d8 ecx
+0x4011fb: BinOp ADD *invalid* ecx ecx
+0x4011fe: WRITE ecx 0x7ffd344637f8
+0x401201: BinOp ADD #4 rax rax
+0x4011f8: READ 0x7ffd344637ec ecx
+0x4011fb: READ 0x7ffd344637dc ecx
+0x4011fb: BinOp ADD *invalid* ecx ecx
+0x4011fe: WRITE ecx 0x7ffd344637fc
+0x401201: BinOp ADD #4 rax rax

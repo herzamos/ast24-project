@@ -1,0 +1,28 @@
+0x4011c0: READ 0x7fffe33611a4 ecx
+0x4011c3: READ 0x7fffe33611a0 edx
+0x4011c5: BinOp IMUL ecx edx edx
+0x4011c8: WRITE edx 0x7fffe33611a0
+0x4011ca: READ 0x7fffe33611a8 edx
+0x4011cd: BinOp IMUL edx ecx ecx
+0x4011d0: WRITE ecx 0x7fffe33611a4
+0x4011d3: READ 0x7fffe33611ac ecx
+0x4011d6: BinOp IMUL ecx edx edx
+0x4011d9: WRITE edx 0x7fffe33611a8
+0x4011dc: READ 0x7fffe33611b0 edx
+0x4011df: BinOp IMUL edx ecx ecx
+0x4011e2: WRITE ecx 0x7fffe33611ac
+0x4011e5: READ 0x7fffe33611b4 ecx
+0x4011e8: BinOp IMUL ecx edx edx
+0x4011eb: WRITE edx 0x7fffe33611b0
+0x4011ee: READ 0x7fffe33611b8 edx
+0x4011f1: BinOp IMUL edx ecx ecx
+0x4011f4: WRITE ecx 0x7fffe33611b4
+0x4011f7: READ 0x7fffe33611bc ecx
+0x4011fa: BinOp IMUL ecx edx edx
+0x4011fd: WRITE edx 0x7fffe33611b8
+0x401200: READ 0x7fffe33611c0 edx
+0x401203: BinOp IMUL edx ecx ecx
+0x401206: READ 0x7fffe33611c4 edx
+0x401206: BinOp IMUL *invalid* edx edx
+0x40120a: WRITE ecx 0x7fffe33611bc
+0x40120d: WRITE edx 0x7fffe33611c0

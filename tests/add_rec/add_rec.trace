@@ -1,0 +1,6 @@
+0x4010a3: BinOp ADD edx eax eax
+0x4010b1: BinOp ADD edx eax eax
+0x401200: READ 0x7ffe74c2d77c r8d
+0x401203: READ 0x7ffe74c2d788 ecx
+0x401205: BinOp ADD r8d ecx ecx
+0x401208: WRITE ecx 0x7ffe74c2d794

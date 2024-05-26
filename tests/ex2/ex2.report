@@ -1,0 +1,177 @@
+
+################################################################################
+	Trace points from PinTool
+################################################################################
+
+TracePoint { ip: 401154, op: BinOp(TraceBinOp { ip: 4198740, op: "SUB", src1: "#176", src2: "rsp", dest: "rsp" }) }
+TracePoint { ip: 401169, op: MemOp(TraceMemOp { ip: 4198761, typ: Read, addr: 140412983646056, reg: "rax" }) }
+TracePoint { ip: 401040, op: MemOp(TraceMemOp { ip: 4198464, typ: Read, addr: 4210664, reg: "*invalid*" }) }
+TracePoint { ip: 7FB472318962, op: MemOp(TraceMemOp { ip: 140412986689890, typ: Read, addr: 140723970039104, reg: "xmm0" }) }
+TracePoint { ip: 7FB472318966, op: MemOp(TraceMemOp { ip: 140412986689894, typ: Read, addr: 140723970039104, reg: "xmm1" }) }
+TracePoint { ip: 7FB47231896C, op: MemOp(TraceMemOp { ip: 140412986689900, typ: Write, addr: 140723970038976, reg: "xmm0" }) }
+TracePoint { ip: 7FB472318970, op: MemOp(TraceMemOp { ip: 140412986689904, typ: Write, addr: 140723970038976, reg: "xmm1" }) }
+TracePoint { ip: 401040, op: MemOp(TraceMemOp { ip: 4198464, typ: Read, addr: 4210664, reg: "*invalid*" }) }
+TracePoint { ip: 7FB47231890D, op: MemOp(TraceMemOp { ip: 140412986689805, typ: Read, addr: 140723970038912, reg: "ymm0" }) }
+TracePoint { ip: 7FB47231891B, op: MemOp(TraceMemOp { ip: 140412986689819, typ: Read, addr: 140723970038944, reg: "ymm1" }) }
+TracePoint { ip: 7FB472318921, op: MemOp(TraceMemOp { ip: 140412986689825, typ: Write, addr: 140723970039040, reg: "ymm0" }) }
+TracePoint { ip: 7FB472318925, op: MemOp(TraceMemOp { ip: 140412986689829, typ: Write, addr: 140723970039072, reg: "ymm1" }) }
+TracePoint { ip: 40122D, op: MemOp(TraceMemOp { ip: 4198957, typ: Read, addr: 140412983646056, reg: "rax" }) }
+TracePoint { ip: 40122D, op: BinOp(TraceBinOp { ip: 4198957, op: "SUB", src1: "*invalid*", src2: "rax", dest: "rax" }) }
+
+################################################################################
+	Augmented same IP trace points to instructions
+################################################################################
+
+TraceInstruction { ip: 0, read: None, binop: None, write: None }
+TraceInstruction { ip: 4198740, read: None, binop: Some(TraceBinOp { ip: 4198740, op: "SUB", src1: "#176", src2: "rsp", dest: "rsp" }), write: None }
+TraceInstruction { ip: 4198761, read: Some(TraceMemOp { ip: 4198761, typ: Read, addr: 140412983646056, reg: "rax" }), binop: None, write: None }
+TraceInstruction { ip: 4198464, read: Some(TraceMemOp { ip: 4198464, typ: Read, addr: 4210664, reg: "*invalid*" }), binop: None, write: None }
+TraceInstruction { ip: 140412986689890, read: Some(TraceMemOp { ip: 140412986689890, typ: Read, addr: 140723970039104, reg: "xmm0" }), binop: None, write: None }
+TraceInstruction { ip: 140412986689894, read: Some(TraceMemOp { ip: 140412986689894, typ: Read, addr: 140723970039104, reg: "xmm1" }), binop: None, write: None }
+TraceInstruction { ip: 140412986689900, read: None, binop: None, write: Some(TraceMemOp { ip: 140412986689900, typ: Write, addr: 140723970038976, reg: "xmm0" }) }
+TraceInstruction { ip: 140412986689904, read: None, binop: None, write: Some(TraceMemOp { ip: 140412986689904, typ: Write, addr: 140723970038976, reg: "xmm1" }) }
+TraceInstruction { ip: 4198464, read: Some(TraceMemOp { ip: 4198464, typ: Read, addr: 4210664, reg: "*invalid*" }), binop: None, write: None }
+TraceInstruction { ip: 140412986689805, read: Some(TraceMemOp { ip: 140412986689805, typ: Read, addr: 140723970038912, reg: "ymm0" }), binop: None, write: None }
+TraceInstruction { ip: 140412986689819, read: Some(TraceMemOp { ip: 140412986689819, typ: Read, addr: 140723970038944, reg: "ymm1" }), binop: None, write: None }
+TraceInstruction { ip: 140412986689825, read: None, binop: None, write: Some(TraceMemOp { ip: 140412986689825, typ: Write, addr: 140723970039040, reg: "ymm0" }) }
+TraceInstruction { ip: 140412986689829, read: None, binop: None, write: Some(TraceMemOp { ip: 140412986689829, typ: Write, addr: 140723970039072, reg: "ymm1" }) }
+TraceInstruction { ip: 4198957, read: Some(TraceMemOp { ip: 4198957, typ: Read, addr: 140412983646056, reg: "rax" }), binop: Some(TraceBinOp { ip: 4198957, op: "SUB", src1: "*invalid*", src2: "rax", dest: "rax" }), write: None }
+parsing of trace done
+
+################################################################################
+	Converted instructions back to trace points
+################################################################################
+
+TracePoint { ip: 0, op: Pass }
+TracePoint { ip: 401154, op: BinOp(TraceBinOp { ip: 4198740, op: "SUB", src1: "#176", src2: "rsp", dest: "rsp" }) }
+TracePoint { ip: 401169, op: MemOp(TraceMemOp { ip: 4198761, typ: Read, addr: 140412983646056, reg: "rax" }) }
+TracePoint { ip: 401040, op: MemOp(TraceMemOp { ip: 4198464, typ: Read, addr: 4210664, reg: "*invalid*" }) }
+TracePoint { ip: 7FB472318962, op: MemOp(TraceMemOp { ip: 140412986689890, typ: Read, addr: 140723970039104, reg: "xmm0" }) }
+TracePoint { ip: 7FB472318966, op: MemOp(TraceMemOp { ip: 140412986689894, typ: Read, addr: 140723970039104, reg: "xmm1" }) }
+TracePoint { ip: 7FB47231896C, op: MemOp(TraceMemOp { ip: 140412986689900, typ: Write, addr: 140723970038976, reg: "xmm0" }) }
+TracePoint { ip: 7FB472318970, op: MemOp(TraceMemOp { ip: 140412986689904, typ: Write, addr: 140723970038976, reg: "xmm1" }) }
+TracePoint { ip: 401040, op: MemOp(TraceMemOp { ip: 4198464, typ: Read, addr: 4210664, reg: "*invalid*" }) }
+TracePoint { ip: 7FB47231890D, op: MemOp(TraceMemOp { ip: 140412986689805, typ: Read, addr: 140723970038912, reg: "ymm0" }) }
+TracePoint { ip: 7FB47231891B, op: MemOp(TraceMemOp { ip: 140412986689819, typ: Read, addr: 140723970038944, reg: "ymm1" }) }
+TracePoint { ip: 7FB472318921, op: MemOp(TraceMemOp { ip: 140412986689825, typ: Write, addr: 140723970039040, reg: "ymm0" }) }
+TracePoint { ip: 7FB472318925, op: MemOp(TraceMemOp { ip: 140412986689829, typ: Write, addr: 140723970039072, reg: "ymm1" }) }
+TracePoint { ip: 40122D, op: MemOp(TraceMemOp { ip: 4198957, typ: Read, addr: 140412983646056, reg: "tmp_r" }) }
+TracePoint { ip: 40122D, op: BinOp(TraceBinOp { ip: 4198957, op: "SUB", src1: "tmp_r", src2: "rax", dest: "rax" }) }
+Adde new imm
+
+################################################################################
+	Graph creation done. Saving...
+################################################################################
+
+Connected component {
+READ  IP: Some(140412986689819)
+WRITE IP: None
+	0x7ffcda3edca0
+READ  IP: Some(140412986689829)
+WRITE IP: Some(140412986689819)
+	ymm1
+READ  IP: None
+WRITE IP: Some(140412986689829)
+	0x7ffcda3edd20
+}
+W: true, R: true
+
+Connected component {
+READ  IP: Some(140412986689805)
+WRITE IP: None
+	0x7ffcda3edc80
+READ  IP: Some(140412986689825)
+WRITE IP: Some(140412986689805)
+	ymm0
+READ  IP: None
+WRITE IP: Some(140412986689825)
+	0x7ffcda3edd00
+}
+W: true, R: true
+
+Connected component {
+READ  IP: Some(140412986689894)
+WRITE IP: None
+	0x7ffcda3edd40
+READ  IP: Some(140412986689900)
+WRITE IP: Some(140412986689890)
+	xmm0
+READ  IP: None
+WRITE IP: Some(140412986689900)
+	0x7ffcda3edcc0
+READ  IP: Some(140412986689904)
+WRITE IP: Some(140412986689894)
+	xmm1
+READ  IP: None
+WRITE IP: Some(140412986689904)
+	0x7ffcda3edcc0
+}
+W: true, R: true
+
+Connected component {
+READ  IP: Some(4198464)
+WRITE IP: None
+	0x403fe8
+READ  IP: None
+WRITE IP: Some(4198464)
+	*invalid*
+READ  IP: None
+WRITE IP: Some(4198464)
+	*invalid*
+}
+W: false, R: true
+
+Connected component {
+READ  IP: Some(4198957)
+WRITE IP: None
+	0x7fb472031768
+READ  IP: Some(4198957)
+WRITE IP: Some(4198761)
+	rax
+READ  IP: None
+WRITE IP: Some(4198957)
+	rax
+READ  IP: Some(4198957)
+WRITE IP: Some(4198957)
+	tmp_r
+}
+W: false, R: true
+
+Connected component {
+READ  IP: Some(4198740)
+WRITE IP: None
+	#176
+READ  IP: None
+WRITE IP: Some(4198740)
+	rsp
+READ  IP: Some(4198740)
+WRITE IP: None
+	rsp**
+}
+W: false, R: false
+
+
+################################################################################
+	Analysis of strided memory accesses
+################################################################################
+
+Stride(0) is always the same for ip: 7fb472318925!
+Stride(0) is always the same for ip: 7fb47231896c!
+Stride(0) is always the same for ip: 7fb472318921!
+Stride(0) is always the same for ip: 7fb472318970!
+partition: 0
+Tree for 0x7ffcda3edd20 @ IP: 0x7fb472318925
+Analyzing trees in partition
+Every tree in partition is the same -> vectorizable
+partition: 1
+Tree for 0x7ffcda3edcc0 @ IP: 0x7fb47231896c
+Analyzing trees in partition
+Every tree in partition is the same -> vectorizable
+partition: 2
+Tree for 0x7ffcda3edd00 @ IP: 0x7fb472318921
+Analyzing trees in partition
+Every tree in partition is the same -> vectorizable
+partition: 3
+Tree for 0x7ffcda3edcc0 @ IP: 0x7fb472318970
+Analyzing trees in partition
+Every tree in partition is the same -> vectorizable

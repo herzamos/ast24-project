@@ -1,0 +1,23 @@
+0x4011c0: WRITE rsi 0x7fffa4d6c938
+0x4011d8: READ 0x7fffa4d6c938 eax
+0x4011da: BinOp ADD #4 rdi rdi
+0x4011de: READ 0x7fffa4d6c940 eax
+0x4011de: BinOp ADD *invalid* eax eax
+0x4011e1: WRITE eax 0x7fffa4d6c938
+0x4011d8: READ 0x7fffa4d6c938 eax
+0x4011da: BinOp ADD #4 rdi rdi
+0x4011de: READ 0x7fffa4d6c944 eax
+0x4011de: BinOp ADD *invalid* eax eax
+0x4011e1: WRITE eax 0x7fffa4d6c938
+0x4011d8: READ 0x7fffa4d6c938 eax
+0x4011da: BinOp ADD #4 rdi rdi
+0x4011de: READ 0x7fffa4d6c948 eax
+0x4011de: BinOp ADD *invalid* eax eax
+0x4011e1: WRITE eax 0x7fffa4d6c938
+0x4011d8: READ 0x7fffa4d6c938 eax
+0x4011da: BinOp ADD #4 rdi rdi
+0x4011de: READ 0x7fffa4d6c94c eax
+0x4011de: BinOp ADD *invalid* eax eax
+0x4011e1: WRITE eax 0x7fffa4d6c938
+0x4011e8: READ 0x7fffa4d6c938 eax
+0x4011ea: WRITE eax 0x7fffa4d6c93c

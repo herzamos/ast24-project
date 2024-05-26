@@ -1,0 +1,14 @@
+0x401154: BinOp SUB #176 rsp rsp
+0x401169: READ 0x7fb472031768 rax
+0x401040: READ 0x403fe8 *invalid*
+0x7fb472318962: READ 0x7ffcda3edd40 xmm0
+0x7fb472318966: READ 0x7ffcda3edd40 xmm1
+0x7fb47231896c: WRITE xmm0 0x7ffcda3edcc0
+0x7fb472318970: WRITE xmm1 0x7ffcda3edcc0
+0x401040: READ 0x403fe8 *invalid*
+0x7fb47231890d: READ 0x7ffcda3edc80 ymm0
+0x7fb47231891b: READ 0x7ffcda3edca0 ymm1
+0x7fb472318921: WRITE ymm0 0x7ffcda3edd00
+0x7fb472318925: WRITE ymm1 0x7ffcda3edd20
+0x40122d: READ 0x7fb472031768 rax
+0x40122d: BinOp SUB *invalid* rax rax

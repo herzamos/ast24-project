@@ -1,0 +1,15 @@
+0x40116f: BinOp ADD rdx rax rax
+0x401172: READ 0x7ffc5f91cd00 edx
+0x401185: BinOp ADD rcx rax rax
+0x401188: BinOp ADD #1 edx edx
+0x40118b: WRITE edx 0x7ffc5f91ccf0
+0x40116f: BinOp ADD rdx rax rax
+0x401172: READ 0x7ffc5f91cd08 edx
+0x401185: BinOp ADD rcx rax rax
+0x401188: BinOp ADD #1 edx edx
+0x40118b: WRITE edx 0x7ffc5f91ccf8
+0x40116f: BinOp ADD rdx rax rax
+0x401172: READ 0x7ffc5f91cd0c edx
+0x401185: BinOp ADD rcx rax rax
+0x401188: BinOp ADD #1 edx edx
+0x40118b: WRITE edx 0x7ffc5f91ccfc

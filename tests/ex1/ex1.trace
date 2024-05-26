@@ -1,0 +1,260 @@
+0x4011fe: BinOp SUB #1 eax eax
+0x401210: READ 0x7ffdfcfc6b08 r8
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b10 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b10
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b11 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b11
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b12 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b12
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b13 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b13
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b14 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b14
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b15 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b15
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b16 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b16
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b17 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b17
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b18 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b18
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b19 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b19
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b1a *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b1a
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b1b *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b1b
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b1c *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b1c
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b1d *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b1d
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b1e *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b1e
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b1f *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b1f
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b20 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b20
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b21 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b21
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b22 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b22
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b23 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b23
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b24 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b24
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b25 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b25
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b26 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b26
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b27 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b27
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b28 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b28
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b29 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b29
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b2a *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b2a
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b2b *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b2b
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b2c *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b2c
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b2d *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b2d
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b2e *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b2e
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b2f *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b2f
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b30 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b30
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b31 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b31
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b32 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b32
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b33 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b33
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b34 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b34
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b35 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b35
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b36 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b36
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b37 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b37
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b38 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b38
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b39 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b39
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b3a *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b3a
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b3b *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b3b
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b3c *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b3c
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b3d *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b3d
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b3e *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b3e
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b3f *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b3f
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b40 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b40
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b41 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b41
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b42 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b42
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b43 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b43
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b44 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b44
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b45 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b45
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b46 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b46
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b47 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b47
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b48 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b48
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b49 *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b49
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b4a *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b4a
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b4b *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b4b
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b4c *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b4c
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b4d *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b4d
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b4e *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b4e
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401225: BinOp ADD #1 edx edx
+0x40122d: READ 0x7ffdfcfc6b4f *invalid*
+0x40122d: WRITE al 0x7ffdfcfc6b4f
+0x40122d: BinOp ADD al *invalid* *invalid*
+0x401235: BinOp ADD #8 r10 r10
+0x401239: BinOp ADD #64 esi esi

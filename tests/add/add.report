@@ -1,0 +1,215 @@
+
+################################################################################
+	Trace points from PinTool
+################################################################################
+
+TracePoint { ip: 4011F8, op: MemOp(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470496, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: MemOp(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470480, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: BinOp(TraceBinOp { ip: 4198907, op: "ADD", src1: "*invalid*", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 4011FE, op: MemOp(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470512, reg: "ecx" }) }
+TracePoint { ip: 401201, op: BinOp(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }) }
+TracePoint { ip: 4011F8, op: MemOp(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470500, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: MemOp(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470484, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: BinOp(TraceBinOp { ip: 4198907, op: "ADD", src1: "*invalid*", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 4011FE, op: MemOp(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470516, reg: "ecx" }) }
+TracePoint { ip: 401201, op: BinOp(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }) }
+TracePoint { ip: 4011F8, op: MemOp(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470504, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: MemOp(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470488, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: BinOp(TraceBinOp { ip: 4198907, op: "ADD", src1: "*invalid*", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 4011FE, op: MemOp(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470520, reg: "ecx" }) }
+TracePoint { ip: 401201, op: BinOp(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }) }
+TracePoint { ip: 4011F8, op: MemOp(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470508, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: MemOp(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470492, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: BinOp(TraceBinOp { ip: 4198907, op: "ADD", src1: "*invalid*", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 4011FE, op: MemOp(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470524, reg: "ecx" }) }
+TracePoint { ip: 401201, op: BinOp(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }) }
+
+################################################################################
+	Augmented same IP trace points to instructions
+################################################################################
+
+TraceInstruction { ip: 0, read: None, binop: None, write: None }
+TraceInstruction { ip: 4198904, read: Some(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470496, reg: "ecx" }), binop: None, write: None }
+TraceInstruction { ip: 4198907, read: Some(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470480, reg: "ecx" }), binop: Some(TraceBinOp { ip: 4198907, op: "ADD", src1: "*invalid*", src2: "ecx", dest: "ecx" }), write: None }
+TraceInstruction { ip: 4198910, read: None, binop: None, write: Some(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470512, reg: "ecx" }) }
+TraceInstruction { ip: 4198913, read: None, binop: Some(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }), write: None }
+TraceInstruction { ip: 4198904, read: Some(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470500, reg: "ecx" }), binop: None, write: None }
+TraceInstruction { ip: 4198907, read: Some(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470484, reg: "ecx" }), binop: Some(TraceBinOp { ip: 4198907, op: "ADD", src1: "*invalid*", src2: "ecx", dest: "ecx" }), write: None }
+TraceInstruction { ip: 4198910, read: None, binop: None, write: Some(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470516, reg: "ecx" }) }
+TraceInstruction { ip: 4198913, read: None, binop: Some(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }), write: None }
+TraceInstruction { ip: 4198904, read: Some(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470504, reg: "ecx" }), binop: None, write: None }
+TraceInstruction { ip: 4198907, read: Some(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470488, reg: "ecx" }), binop: Some(TraceBinOp { ip: 4198907, op: "ADD", src1: "*invalid*", src2: "ecx", dest: "ecx" }), write: None }
+TraceInstruction { ip: 4198910, read: None, binop: None, write: Some(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470520, reg: "ecx" }) }
+TraceInstruction { ip: 4198913, read: None, binop: Some(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }), write: None }
+TraceInstruction { ip: 4198904, read: Some(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470508, reg: "ecx" }), binop: None, write: None }
+TraceInstruction { ip: 4198907, read: Some(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470492, reg: "ecx" }), binop: Some(TraceBinOp { ip: 4198907, op: "ADD", src1: "*invalid*", src2: "ecx", dest: "ecx" }), write: None }
+TraceInstruction { ip: 4198910, read: None, binop: None, write: Some(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470524, reg: "ecx" }) }
+TraceInstruction { ip: 4198913, read: None, binop: Some(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }), write: None }
+parsing of trace done
+
+################################################################################
+	Converted instructions back to trace points
+################################################################################
+
+TracePoint { ip: 0, op: Pass }
+TracePoint { ip: 4011F8, op: MemOp(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470496, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: MemOp(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470480, reg: "tmp_r" }) }
+TracePoint { ip: 4011FB, op: BinOp(TraceBinOp { ip: 4198907, op: "ADD", src1: "tmp_r", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 4011FE, op: MemOp(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470512, reg: "ecx" }) }
+TracePoint { ip: 401201, op: BinOp(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }) }
+TracePoint { ip: 4011F8, op: MemOp(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470500, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: MemOp(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470484, reg: "tmp_r" }) }
+TracePoint { ip: 4011FB, op: BinOp(TraceBinOp { ip: 4198907, op: "ADD", src1: "tmp_r", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 4011FE, op: MemOp(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470516, reg: "ecx" }) }
+TracePoint { ip: 401201, op: BinOp(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }) }
+TracePoint { ip: 4011F8, op: MemOp(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470504, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: MemOp(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470488, reg: "tmp_r" }) }
+TracePoint { ip: 4011FB, op: BinOp(TraceBinOp { ip: 4198907, op: "ADD", src1: "tmp_r", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 4011FE, op: MemOp(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470520, reg: "ecx" }) }
+TracePoint { ip: 401201, op: BinOp(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }) }
+TracePoint { ip: 4011F8, op: MemOp(TraceMemOp { ip: 4198904, typ: Read, addr: 140725480470508, reg: "ecx" }) }
+TracePoint { ip: 4011FB, op: MemOp(TraceMemOp { ip: 4198907, typ: Read, addr: 140725480470492, reg: "tmp_r" }) }
+TracePoint { ip: 4011FB, op: BinOp(TraceBinOp { ip: 4198907, op: "ADD", src1: "tmp_r", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 4011FE, op: MemOp(TraceMemOp { ip: 4198910, typ: Write, addr: 140725480470524, reg: "ecx" }) }
+TracePoint { ip: 401201, op: BinOp(TraceBinOp { ip: 4198913, op: "ADD", src1: "#4", src2: "rax", dest: "rax" }) }
+Adde new imm
+Adde new imm
+Adde new imm
+Adde new imm
+
+################################################################################
+	Graph creation done. Saving...
+################################################################################
+
+Connected component {
+READ  IP: Some(4198904)
+WRITE IP: None
+	0x7ffd344637ec
+READ  IP: Some(4198907)
+WRITE IP: Some(4198904)
+	ecx
+READ  IP: Some(4198910)
+WRITE IP: Some(4198907)
+	ecx
+READ  IP: Some(4198907)
+WRITE IP: Some(4198907)
+	tmp_r
+READ  IP: Some(4198907)
+WRITE IP: None
+	0x7ffd344637dc
+READ  IP: None
+WRITE IP: Some(4198910)
+	0x7ffd344637fc
+}
+W: true, R: true
+
+Connected component {
+READ  IP: Some(4198904)
+WRITE IP: None
+	0x7ffd344637e8
+READ  IP: Some(4198907)
+WRITE IP: Some(4198904)
+	ecx
+READ  IP: Some(4198910)
+WRITE IP: Some(4198907)
+	ecx
+READ  IP: Some(4198907)
+WRITE IP: Some(4198907)
+	tmp_r
+READ  IP: Some(4198907)
+WRITE IP: None
+	0x7ffd344637d8
+READ  IP: None
+WRITE IP: Some(4198910)
+	0x7ffd344637f8
+}
+W: true, R: true
+
+Connected component {
+READ  IP: Some(4198904)
+WRITE IP: None
+	0x7ffd344637e4
+READ  IP: Some(4198907)
+WRITE IP: Some(4198904)
+	ecx
+READ  IP: Some(4198910)
+WRITE IP: Some(4198907)
+	ecx
+READ  IP: Some(4198907)
+WRITE IP: Some(4198907)
+	tmp_r
+READ  IP: Some(4198907)
+WRITE IP: None
+	0x7ffd344637d4
+READ  IP: None
+WRITE IP: Some(4198910)
+	0x7ffd344637f4
+}
+W: true, R: true
+
+Connected component {
+READ  IP: Some(4198913)
+WRITE IP: None
+	#4
+READ  IP: Some(4198913)
+WRITE IP: Some(4198913)
+	rax
+READ  IP: Some(4198913)
+WRITE IP: None
+	rax**
+READ  IP: Some(4198913)
+WRITE IP: Some(4198913)
+	rax
+READ  IP: Some(4198913)
+WRITE IP: None
+	#4
+READ  IP: Some(4198913)
+WRITE IP: Some(4198913)
+	rax
+READ  IP: Some(4198913)
+WRITE IP: None
+	#4
+READ  IP: None
+WRITE IP: Some(4198913)
+	rax
+READ  IP: Some(4198913)
+WRITE IP: None
+	#4
+}
+W: false, R: false
+
+Connected component {
+READ  IP: Some(4198904)
+WRITE IP: None
+	0x7ffd344637e0
+READ  IP: Some(4198907)
+WRITE IP: Some(4198904)
+	ecx
+READ  IP: Some(4198910)
+WRITE IP: Some(4198907)
+	ecx
+READ  IP: Some(4198907)
+WRITE IP: Some(4198907)
+	tmp_r
+READ  IP: Some(4198907)
+WRITE IP: None
+	0x7ffd344637d0
+READ  IP: None
+WRITE IP: Some(4198910)
+	0x7ffd344637f0
+}
+W: true, R: true
+
+
+################################################################################
+	Analysis of strided memory accesses
+################################################################################
+
+Stride(4) is always the same for ip: 4011fe!
+partition: 0
+Tree for 0x7ffd344637f0 @ IP: 0x4011fe
+Tree for 0x7ffd344637f4 @ IP: 0x4011fe
+Tree for 0x7ffd344637f8 @ IP: 0x4011fe
+Tree for 0x7ffd344637fc @ IP: 0x4011fe
+Analyzing trees in partition
+Every tree in partition is the same -> vectorizable

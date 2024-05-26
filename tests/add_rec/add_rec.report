@@ -1,0 +1,89 @@
+
+################################################################################
+	Trace points from PinTool
+################################################################################
+
+TracePoint { ip: 4010A3, op: BinOp(TraceBinOp { ip: 4198563, op: "ADD", src1: "edx", src2: "eax", dest: "eax" }) }
+TracePoint { ip: 4010B1, op: BinOp(TraceBinOp { ip: 4198577, op: "ADD", src1: "edx", src2: "eax", dest: "eax" }) }
+TracePoint { ip: 401200, op: MemOp(TraceMemOp { ip: 4198912, typ: Read, addr: 140730857346940, reg: "r8d" }) }
+TracePoint { ip: 401203, op: MemOp(TraceMemOp { ip: 4198915, typ: Read, addr: 140730857346952, reg: "ecx" }) }
+TracePoint { ip: 401205, op: BinOp(TraceBinOp { ip: 4198917, op: "ADD", src1: "r8d", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 401208, op: MemOp(TraceMemOp { ip: 4198920, typ: Write, addr: 140730857346964, reg: "ecx" }) }
+
+################################################################################
+	Augmented same IP trace points to instructions
+################################################################################
+
+TraceInstruction { ip: 0, read: None, binop: None, write: None }
+TraceInstruction { ip: 4198563, read: None, binop: Some(TraceBinOp { ip: 4198563, op: "ADD", src1: "edx", src2: "eax", dest: "eax" }), write: None }
+TraceInstruction { ip: 4198577, read: None, binop: Some(TraceBinOp { ip: 4198577, op: "ADD", src1: "edx", src2: "eax", dest: "eax" }), write: None }
+TraceInstruction { ip: 4198912, read: Some(TraceMemOp { ip: 4198912, typ: Read, addr: 140730857346940, reg: "r8d" }), binop: None, write: None }
+TraceInstruction { ip: 4198915, read: Some(TraceMemOp { ip: 4198915, typ: Read, addr: 140730857346952, reg: "ecx" }), binop: None, write: None }
+TraceInstruction { ip: 4198917, read: None, binop: Some(TraceBinOp { ip: 4198917, op: "ADD", src1: "r8d", src2: "ecx", dest: "ecx" }), write: None }
+TraceInstruction { ip: 4198920, read: None, binop: None, write: Some(TraceMemOp { ip: 4198920, typ: Write, addr: 140730857346964, reg: "ecx" }) }
+parsing of trace done
+
+################################################################################
+	Converted instructions back to trace points
+################################################################################
+
+TracePoint { ip: 0, op: Pass }
+TracePoint { ip: 4010A3, op: BinOp(TraceBinOp { ip: 4198563, op: "ADD", src1: "edx", src2: "eax", dest: "eax" }) }
+TracePoint { ip: 4010B1, op: BinOp(TraceBinOp { ip: 4198577, op: "ADD", src1: "edx", src2: "eax", dest: "eax" }) }
+TracePoint { ip: 401200, op: MemOp(TraceMemOp { ip: 4198912, typ: Read, addr: 140730857346940, reg: "r8d" }) }
+TracePoint { ip: 401203, op: MemOp(TraceMemOp { ip: 4198915, typ: Read, addr: 140730857346952, reg: "ecx" }) }
+TracePoint { ip: 401205, op: BinOp(TraceBinOp { ip: 4198917, op: "ADD", src1: "r8d", src2: "ecx", dest: "ecx" }) }
+TracePoint { ip: 401208, op: MemOp(TraceMemOp { ip: 4198920, typ: Write, addr: 140730857346964, reg: "ecx" }) }
+
+################################################################################
+	Graph creation done. Saving...
+################################################################################
+
+Connected component {
+READ  IP: Some(4198912)
+WRITE IP: None
+	0x7ffe74c2d77c
+READ  IP: Some(4198917)
+WRITE IP: Some(4198912)
+	r8d
+READ  IP: Some(4198920)
+WRITE IP: Some(4198917)
+	ecx
+READ  IP: Some(4198917)
+WRITE IP: Some(4198915)
+	ecx
+READ  IP: Some(4198915)
+WRITE IP: None
+	0x7ffe74c2d788
+READ  IP: None
+WRITE IP: Some(4198920)
+	0x7ffe74c2d794
+}
+W: true, R: true
+
+Connected component {
+READ  IP: Some(4198577)
+WRITE IP: None
+	edx**
+READ  IP: Some(4198577)
+WRITE IP: Some(4198563)
+	eax
+READ  IP: Some(4198563)
+WRITE IP: None
+	eax**
+READ  IP: None
+WRITE IP: Some(4198577)
+	eax
+}
+W: false, R: false
+
+
+################################################################################
+	Analysis of strided memory accesses
+################################################################################
+
+Stride(0) is always the same for ip: 401208!
+partition: 0
+Tree for 0x7ffe74c2d794 @ IP: 0x401208
+Analyzing trees in partition
+Every tree in partition is the same -> vectorizable
